@@ -125,15 +125,8 @@ void ScanForBracket(char*& currentCharacter, char bracketType)
             }
             else
             {
-                // We are already at the right bracket, but we want to be the command before/after it
-                if (scanBackwards)
-                {
-                    currentCharacter--;
-                }
-                else
-                {
-                    currentCharacter++;
-                }
+                // We are already at the correct bracket, but we want to be the command after it
+                currentCharacter++;
                 return;
             }
         }
