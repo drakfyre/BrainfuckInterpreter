@@ -27,10 +27,18 @@ int main()
             case '>':
                 // Increment the data pointer by one (to point to the next cell to the right).
                 dataPointer++;
+                if (dataPointer - data >= 30000)
+                {
+                    dataPointer = data;
+                }
                 break;
             case '<':
                 // Decrement the data pointer by one (to point to the next cell to the left).
                 dataPointer--;
+                if(dataPointer - data < 0)
+                {
+                    dataPointer = data + 30000 - 1;
+                }
                 break;
             case '+':
                 // Increment the byte at the data pointer by one.
@@ -71,6 +79,7 @@ int main()
     }
 }
 
+// This scans for the corresponding closing/opening bracket 
 void ScanForBracket(char*& currentCharacter, char bracketType)
 {
     int bracketCount = 0;
@@ -86,7 +95,6 @@ void ScanForBracket(char*& currentCharacter, char bracketType)
         otherBracket = '[';
         scanBackwards = true;
     }
-
 
     while(true)
     {
