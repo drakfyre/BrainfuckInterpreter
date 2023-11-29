@@ -28,32 +28,26 @@ int main()
             case '>':
                 // Increment the data pointer by one (to point to the next cell to the right).
                 dataPointer++;
-                currentCharacter++;
                 break;
             case '<':
                 // Decrement the data pointer by one (to point to the next cell to the left).
                 dataPointer--;
-                currentCharacter++;
                 break;
             case '+':
                 // Increment the byte at the data pointer by one.
                 (*dataPointer)++;
-                currentCharacter++;
                 break;
             case '-':
                 // Decrement the byte at the data pointer by one.
                 (*dataPointer)--;
-                currentCharacter++;
                 break;
             case '.':
                 // 	Output the byte at the data pointer.
                 std::cout << *dataPointer;
-                currentCharacter++;
                 break;
             case ',':
                 // Accept one byte of input, storing its value in the byte at the data pointer.
                 std::cin >> dataPointer;
-                currentCharacter++;
                 break;
             case '[':
                 // 	If the byte at the data pointer is zero, then instead of moving the instruction pointer forward to the next command, jump it forward to the command after the matching ] command.
@@ -61,10 +55,6 @@ int main()
                 {
                     // Scan forward and set data pointer to matching ]
                     ScanForBracket(currentCharacter, '[');
-                }
-                else
-                {
-                    currentCharacter++;
                 }
                 break;
             case ']':
@@ -74,14 +64,11 @@ int main()
                     // Scan backward and set data pointer to matching [
                     ScanForBracket(currentCharacter, ']');
                 }
-                else
-                {
-                    currentCharacter++;
-                }
                 break;
             default:
                 break;
         }
+        currentCharacter++;
     }
 }
 
@@ -125,8 +112,7 @@ void ScanForBracket(char*& currentCharacter, char bracketType)
             }
             else
             {
-                // We are already at the correct bracket, but we want to be the command after it
-                currentCharacter++;
+                // We are already at the correct bracket, so we just have to return
                 return;
             }
         }
