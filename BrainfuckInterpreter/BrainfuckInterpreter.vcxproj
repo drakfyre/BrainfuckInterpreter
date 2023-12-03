@@ -129,6 +129,13 @@
   <ItemGroup>
     <ClCompile Include="BrainfuckInterpreter.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="factorial2.b" />
+    <None Include="life.b" />
+    <None Include="qsort.b" />
+    <None Include="sierpinski.b" />
+    <None Include="tictactoe.b" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

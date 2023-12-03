@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <string>
+#include <sstream>
+#include <fstream>
 
 using std::string;
 
@@ -9,10 +11,16 @@ void ScanForBracket(char*& currentCharacter, char bracketType);
 
 int main()
 {
-    std::cout << "Please type in your Brainfuck program now.\n";
+    std::ifstream program("tictactoe.b");
+    std::stringstream buffer;
+    buffer << program.rdbuf();
 
-    string brainfuckString;
-    std::cin >> brainfuckString;
+
+    //std::cout << "Please type in your Brainfuck program now.\n";
+
+    string brainfuckString = buffer.str();
+
+    //std::cin >> brainfuckString;
 
     uint8_t data[30000] = { 0 };
     uint8_t* dataPointer = data;
@@ -54,7 +62,7 @@ int main()
                 break;
             case ',':
                 // Accept one byte of input, storing its value in the byte at the data pointer.
-                std::cin >> dataPointer;
+                std::cin >> *dataPointer;
                 break;
             case '[':
                 // 	If the byte at the data pointer is zero, then instead of moving the instruction pointer forward to the next command, jump it forward to the command after the matching ] command.

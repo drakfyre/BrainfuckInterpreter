@@ -19,4 +19,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="life.b">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="qsort.b">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="sierpinski.b">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="factorial2.b">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="tictactoe.b">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>
