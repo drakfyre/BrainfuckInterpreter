@@ -4,6 +4,7 @@
 class BrainfuckTool
 {
 public:
+	// This currently assumes that the value we are setting is 0
 	void SetValue(int value);
 	void SetArray(char inputArray[], int arrayLength, int arrayWidth = 0);
 	void Right(int amount = 1);
