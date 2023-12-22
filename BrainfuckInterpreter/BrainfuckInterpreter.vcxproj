@@ -137,6 +137,7 @@
     <None Include="qsort.b" />
     <None Include="sierpinski.b" />
     <None Include="tictactoe.b" />
+    <None Include="week6alpha.b" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BrainfuckTool.h" />

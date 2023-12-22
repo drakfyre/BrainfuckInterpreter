@@ -19,7 +19,7 @@ void BrainfuckTool::SetArray(char inputArray[], int arrayLength, int arrayWidth)
 
 		if (arrayWidth > 0)
 		{
-			if (i % arrayWidth == 0)
+			if (i > 0 && i % arrayWidth == 0)
 			{
 				SetValue('\n');
 				Right();

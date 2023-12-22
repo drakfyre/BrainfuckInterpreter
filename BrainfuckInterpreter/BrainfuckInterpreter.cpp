@@ -31,18 +31,20 @@ int main()
     BrainfuckTool tool;
     tool.SetArray(levelArray, 25*15, 25);
     tool.Left(25*15);
-    tool.Out(25*15 + 15);
+    tool.Out(25*15 + 30);
+
+    //std::cout << tool.bfString;
 
 
-    std::ifstream program("sierpinski.b");
+    std::ifstream program("week6alpha.b");
     std::stringstream buffer;
     buffer << program.rdbuf();
 
 
     //std::cout << "Please type in your Brainfuck program now.\n";
 
-    //string brainfuckString = buffer.str();
-    string brainfuckString = tool.bfString;
+    string brainfuckString = buffer.str();
+    //string brainfuckString = tool.bfString;
 
     //std::cin >> brainfuckString;
 
