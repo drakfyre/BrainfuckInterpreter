@@ -29,7 +29,9 @@ int main()
                       '+','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','+' };
 
     BrainfuckTool tool;
-    tool.SetArray(levelArray, 25*15);
+    tool.SetArray(levelArray, 25*15, 25);
+    tool.Left(25*15);
+    tool.Out(25*15 + 15);
 
 
     std::ifstream program("sierpinski.b");
@@ -39,7 +41,8 @@ int main()
 
     //std::cout << "Please type in your Brainfuck program now.\n";
 
-    string brainfuckString = buffer.str();
+    //string brainfuckString = buffer.str();
+    string brainfuckString = tool.bfString;
 
     //std::cin >> brainfuckString;
 
@@ -106,6 +109,7 @@ int main()
         }
         currentCharacter++;
     }
+
 }
 
 // This scans for the corresponding closing/opening bracket 
