@@ -17,13 +17,10 @@ void BrainfuckTool::SetArray(char inputArray[], int arrayLength, int arrayWidth)
 		SetValue(inputArray[i]);
 		Right();
 
-		if (arrayWidth > 0)
+		if (i % arrayWidth == arrayWidth - 1)
 		{
-			if (i % arrayWidth == arrayWidth - 1)
-			{
-				SetValue('\n');
-				Right();
-			}
+			SetValue('\n');
+			Right();
 		}
 	}
 }

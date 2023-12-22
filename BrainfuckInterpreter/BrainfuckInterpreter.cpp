@@ -29,12 +29,15 @@ int main()
                       '+','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','+' };
 
     BrainfuckTool tool;
+
+    // Put level array into memory (at position 0) with newlines built-in based on width (I think this will be easier to work with in the long-run)
     tool.SetArray(levelArray, 25*15, 25);
+
+    // Move back to position 0 (move left size of the array, it's 25*15 + 15 characters because of the newlines)
     tool.Left(25*15 + 15);
     tool.Out(25*15 + 15);
 
-    std::cout << tool.bfString;
-
+    //std::cout << tool.bfString;
 
     std::ifstream program("week6alpha.b");
     std::stringstream buffer;
