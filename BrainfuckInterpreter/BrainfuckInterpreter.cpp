@@ -33,7 +33,7 @@ int main()
     tool.Left(25*15 + 15);
     tool.Out(25*15 + 15);
 
-    //std::cout << tool.bfString;
+    std::cout << tool.bfString;
 
 
     std::ifstream program("week6alpha.b");
