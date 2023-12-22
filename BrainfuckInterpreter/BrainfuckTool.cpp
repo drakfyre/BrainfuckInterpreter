@@ -112,7 +112,7 @@ void BrainfuckTool::MoveTo(int offset)
 {
 	Branch();		// If current value is 0 we end up at associated loop; we'd be done in that case anyway so that's perfect
 	Right(offset);	// We move to our destination
-	Minus();		// We add 1 to our destination
+	Plus();			// We add 1 to our destination
 	Left(offset);	// We move back to our source
 	Minus();		// We subtract 1 from our source
 	Loop();			// If our source is 0, stop looping
