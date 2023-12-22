@@ -14,6 +14,7 @@ public:
 	void Branch();
 	void Loop();
 	void CopyTo(int offset);
+	void MoveTo(int offset);
 
 	std::string bfString = "";
 	//void Plus();
