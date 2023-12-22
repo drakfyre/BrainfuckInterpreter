@@ -51,3 +51,13 @@ void BrainfuckTool::Out(int length)
 		Right();
 	}
 }
+
+// Copies value from current memory position to offset from current memory positon
+void BrainfuckTool::CopyTo(int offset)
+{
+	// I've never brainfucked before so bear with me
+	// We kinda can't make this non-destructive in some way, at least in interim
+	// We may need to have an offset to a scratch pad area, but let's try to avoid that
+	// We will currently assume that the destination contains 0, but we'll circle back around on that later
+	
+}

@@ -46,9 +46,16 @@ int main()
     // So in our new program, what we will do is actually PUT the @ symbol in the position inside the map itself
     // So that the output code can just output stuff and not jump around
     // So I guess that code will go here
+    // I set up the player to have separate x and y, I feel this will be a mistake, but I need practice so this will be good practice.
+    // As such, we need to multiply the y by width (which means we have to store width too) and we need to then add x, and put that in a new variable
+
+    // Set width constant (we may move this around later)
+    tool.SetValue(25);
+    tool.Right();       // 25*15 + 15 + 3
+
 
     // Move back to position 0 (move left size of the array, it's 25*15 + 15 characters because of the newlines we stuffed in the SetArray function)
-    tool.Left(25*15 + 15 + 2);
+    tool.Left(25*15 + 15 + 3);
 
     // Finally, we output the whole thing
     tool.Out(25*15 + 15);

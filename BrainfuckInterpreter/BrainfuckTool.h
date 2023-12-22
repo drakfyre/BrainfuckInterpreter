@@ -9,6 +9,7 @@ public:
 	void Right(int amount = 1);
 	void Left(int amount = 1);
 	void Out(int length = 1);
+	void CopyTo(int offset);
 
 	std::string bfString = "";
 	//void Plus();
