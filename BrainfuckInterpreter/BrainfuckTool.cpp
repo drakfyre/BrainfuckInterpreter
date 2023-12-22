@@ -105,6 +105,7 @@ void BrainfuckTool::CopyTo(int offset)
 }
 
 // Moves value from current memory position to offset from current memory position, assuming that the destination contains 0
+// Does this mean that this could be generally considered "AddTo"? for the cases that are non-zero? (But that doesn't imply the move...)
 // Not sure how useful this actually is, just happened to write it by accident when trying to make a more useful function
 // (CURRENTLY UNTESTED)
 void BrainfuckTool::MoveTo(int offset)
