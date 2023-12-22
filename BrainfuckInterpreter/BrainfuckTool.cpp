@@ -98,14 +98,9 @@ void BrainfuckTool::CopyTo(int offset)
 
 	// Okay, back here to try something... what if I add twice what I need to the destination... and then move back half?
 	// Would that work?
-	Branch();		// If current value is 0 we end up at associated loop; we'd be done in that case anyway so that's perfect
-	Branch();		// Second branch, gonna try to use this to copy back/forth?
-	Right(offset);	// We move to our destination
-	Plus();			// We add 1 to our destination
-	Left(offset);	// We move back to our source
-	Minus();		// We subtract 1 from our source
-	Loop();			// If our source is 0, stop looping
-	Loop();
+
+	// We can try that later, for now let's use a temp variable.  We'll make this variable the first var after the map so it's easy to access
+	// Still need a good way of accessinh it... again... assembler/memory pointer tracking is advised...
 }
 
 // Moves value from current memory position to offset from current memory position, assuming that the destination contains 0
