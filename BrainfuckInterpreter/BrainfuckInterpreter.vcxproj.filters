@@ -18,6 +18,9 @@
     <ClCompile Include="BrainfuckInterpreter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BrainfuckTool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="life.b">
@@ -35,5 +38,13 @@
     <None Include="tictactoe.b">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="life2.b">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BrainfuckTool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
