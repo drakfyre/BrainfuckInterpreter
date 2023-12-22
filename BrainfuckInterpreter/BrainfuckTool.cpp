@@ -7,7 +7,7 @@ void BrainfuckTool::SetValue(int value)
 	for (int i = 0; i < value; i++)
 	{
 		//std::cout << '+';
-		BrainfuckTool::Add();
+		BrainfuckTool::Plus();
 	}
 }
 
@@ -44,7 +44,7 @@ void BrainfuckTool::Left(int amount)
 	}
 }
 
-void BrainfuckTool::Add()
+void BrainfuckTool::Plus()
 {
 	bfString += '+';
 }
@@ -82,12 +82,12 @@ void BrainfuckTool::CopyTo(int offset)
 	// We may need to have an offset to a scratch pad area, but let's try to avoid that
 	// We will currently assume that the destination contains 0, but we'll circle back around on that later
 	// We are done copying if the current memory position value is 0 (at which point we'll restore it somehow)
-	Branch();		// If current value is 0 we end up at associated loop; we'd be done in that case anyway so that's perfect
-	Right(offset);	// We move to our destination
-	Add();			// We add 1 to our destination
-	Left(offset);	// We move back to our source
-	Minus();		// We subtract 1 from our source
-	Loop();			// If our source is 0, stop looping
+	//Branch();		// If current value is 0 we end up at associated loop; we'd be done in that case anyway so that's perfect
+	//Right(offset);	// We move to our destination
+	//Add();			// We add 1 to our destination
+	//Left(offset);	// We move back to our source
+	//Minus();		// We subtract 1 from our source
+	//Loop();			// If our source is 0, stop looping
 
 	// At this point I *think* we've now put a 0 in our original location, and our original value is now at offset
 	// Yeah... there's no way to avoid a scratch pad for a copy, I don't think
@@ -95,6 +95,17 @@ void BrainfuckTool::CopyTo(int offset)
 	// Also looking more and more that it would be helpful to have some kind of assembler/memory pointer tracking system...
 	// If not... we should probably put an iterator slot in a prime position (0?)
 	// But doing that moves the level somewhere else, again indicating that an assembler/pointer tracking system would be useful...
+
+	// Okay, back here to try something... what if I add twice what I need to the destination... and then move back half?
+	// Would that work?
+	Branch();		// If current value is 0 we end up at associated loop; we'd be done in that case anyway so that's perfect
+	Branch();		// Second branch, gonna try to use this to copy back/forth?
+	Right(offset);	// We move to our destination
+	Plus();			// We add 1 to our destination
+	Left(offset);	// We move back to our source
+	Minus();		// We subtract 1 from our source
+	Loop();			// If our source is 0, stop looping
+	Loop();
 }
 
 // Moves value from current memory position to offset from current memory position, assuming that the destination contains 0
@@ -104,7 +115,7 @@ void BrainfuckTool::MoveTo(int offset)
 {
 	Branch();		// If current value is 0 we end up at associated loop; we'd be done in that case anyway so that's perfect
 	Right(offset);	// We move to our destination
-	Add();			// We add 1 to our destination
+	Minus();			// We add 1 to our destination
 	Left(offset);	// We move back to our source
 	Minus();		// We subtract 1 from our source
 	Loop();			// If our source is 0, stop looping

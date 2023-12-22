@@ -138,6 +138,7 @@ int main()
         currentCharacter++;
     }
 
+    std::cout << "Final command pointer position: " << currentCharacter - &brainfuckString[0];
 }
 
 // This scans for the corresponding closing/opening bracket 
