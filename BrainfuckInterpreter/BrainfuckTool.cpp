@@ -55,6 +55,14 @@ void BrainfuckTool::ChangeIndexRelative(int offset)
 	}
 }
 
+// Untested, may not be totally useful
+void BrainfuckTool::ChangeIndexToNextZero()
+{
+	Branch();	// Ends if we're currently at a 0
+	Right();	// Increase current index
+	Loop();		// If current index is 0, ends
+}
+
 void BrainfuckTool::Plus()
 {
 	bfvm.brainfuckString += '+';
@@ -123,7 +131,7 @@ void BrainfuckTool::CopyTo(int offset)
 // Moves value from current memory position to offset from current memory position, assuming that the destination contains 0
 // Does this mean that this could be generally considered "AddTo"? for the cases that are non-zero? (But that doesn't imply the move...)
 // Not sure how useful this actually is, just happened to write it by accident when trying to make a more useful function
-// (CURRENTLY UNTESTED)
+// (Lightly tested)
 void BrainfuckTool::MoveToOffset(int offset)
 {
 	Branch();		// If current value is 0 we end up at associated loop; we'd be done in that case anyway so that's perfect
@@ -134,6 +142,7 @@ void BrainfuckTool::MoveToOffset(int offset)
 	Loop();			// If our source is 0, stop looping
 }
 
+// Untested
 void BrainfuckTool::MoveToIndex(int index)
 {
 	int offset = index - bfvm.dataIndex;

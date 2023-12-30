@@ -55,13 +55,19 @@ bool BFVM::Step()
             if (data[dataIndex] != 0)
             {
                 int bracketIndex = currentCharacterIndex;
+
                 // Scan backward and set data pointer to matching [
                 ScanForBracket(currentCharacterIndex, ']');
-
-                // Fully evaluate loop before continuing (Untested)
-                while(currentCharacterIndex <= bracketIndex)
+                
+                if(!evaluatingLoop)
                 {
-                    Step();
+                    evaluatingLoop = true;
+                    // Fully evaluate loop before continuing (Untested)
+                    while(currentCharacterIndex < bracketIndex)
+                    {
+                        Step();
+                    }
+                    evaluatingLoop = false;
                 }
             }
             break;

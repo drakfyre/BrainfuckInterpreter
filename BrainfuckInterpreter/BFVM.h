@@ -15,6 +15,7 @@ private:
     int dataIndex = 0;
     int currentCharacterIndex = 0;
     string brainfuckString = "";
+    bool evaluatingLoop = false;
 
     BFVM() = default;
     void ScanForBracket(int& currentCharacter, char bracketType);

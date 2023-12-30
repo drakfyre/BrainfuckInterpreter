@@ -53,10 +53,12 @@ int main()
     tool.SetValue(25);
     tool.MoveToOffset(1);
     tool.Right();       // 25*15 + 15 + 4
+    tool.MoveToOffset(-1);
+    tool.Right();       // 25*15 + 15 + 5
 
 
     // Move back to position 0 (move left size of the array, it's 25*15 + 15 characters because of the newlines we stuffed in the SetArray function)
-    tool.Left(25 * 15 + 15 + 4);
+    tool.Left(25 * 15 + 15 + 5);
 
     // Finally, we output the whole thing
     tool.Out(25 * 15 + 15);
