@@ -13,7 +13,7 @@ public:
 private:
     uint8_t data[30000] = { 0 };
     uint8_t* dataPointer = data;
-    int currentCharacterIndex;
+    int currentCharacterIndex = 0;
     string brainfuckString = "";
 
     BFVM() = default;
