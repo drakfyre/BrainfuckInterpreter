@@ -6,9 +6,9 @@
 // Steps the VM, if we run out of instructions we return false
 bool BFVM::Step()
 {
-    if(*currentCharacter != '\0')
+    if(brainfuckString[currentCharacterIndex] != '\0')
     {
-        switch (*currentCharacter)
+        switch (brainfuckString[currentCharacterIndex])
         {
         case '>':
             // Increment the data pointer by one (to point to the next cell to the right).
@@ -47,7 +47,7 @@ bool BFVM::Step()
             if (*dataPointer == 0)
             {
                 // Scan forward and set data pointer to matching ]
-                ScanForBracket(currentCharacter, '[');
+                ScanForBracket(currentCharacterIndex, '[');
             }
             break;
         case ']':
@@ -55,22 +55,22 @@ bool BFVM::Step()
             if (*dataPointer != 0)
             {
                 // Scan backward and set data pointer to matching [
-                ScanForBracket(currentCharacter, ']');
+                ScanForBracket(currentCharacterIndex, ']');
             }
             break;
         default:
             break;
         }
-        currentCharacter++;
+        currentCharacterIndex++;
         return true;
     }
 
-    std::cout << "Final command pointer position: " << currentCharacter - &brainfuckString[0];
+    std::cout << "Final command pointer position: " << currentCharacterIndex;
     return false;
 }
 
 // This scans for the corresponding closing/opening bracket 
-void BFVM::ScanForBracket(char*& currentCharacter, char bracketType)
+void BFVM::ScanForBracket(int& currentCharacter, char bracketType)
 {
     int bracketCount = 0;
     char otherBracket;
@@ -97,11 +97,11 @@ void BFVM::ScanForBracket(char*& currentCharacter, char bracketType)
             currentCharacter++;
         }
 
-        if (*currentCharacter == bracketType)
+        if (brainfuckString[currentCharacterIndex] == bracketType)
         {
             bracketCount++;
         }
-        else if (*currentCharacter == otherBracket)
+        else if (brainfuckString[currentCharacterIndex] == otherBracket)
         {
             if (bracketCount > 0)
             {

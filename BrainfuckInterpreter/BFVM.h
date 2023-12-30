@@ -6,14 +6,18 @@ using std::string;
 #pragma once
 class BFVM
 {
+public:
+    BFVM(string brainfuckString) : brainfuckString{ brainfuckString } {};
+    bool Step();
+
 private:
     uint8_t data[30000] = { 0 };
     uint8_t* dataPointer = data;
-    char* currentCharacter;
+    int currentCharacterIndex;
     string brainfuckString = "";
 
-public:
-    BFVM(string brainfuckString) : brainfuckString{ brainfuckString } { currentCharacter = &this->brainfuckString[0]; };
-    bool Step();
-    void ScanForBracket(char*& currentCharacter, char bracketType);
+    BFVM() = default;
+    void ScanForBracket(int& currentCharacter, char bracketType);
+
+    friend class BrainfuckTool;
 };

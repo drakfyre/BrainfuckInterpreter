@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "BFVM.h"
 
 class BrainfuckTool
 {
@@ -18,5 +19,6 @@ public:
 	void MoveTo(int offset);
 
 	std::string bfString = "";
+	BFVM bfvm;
 };
 
