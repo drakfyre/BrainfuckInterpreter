@@ -15,10 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BrainfuckInterpreter.cpp">
+    <ClCompile Include="BFVM.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BrainfuckTool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,6 +50,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BrainfuckTool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BFVM.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

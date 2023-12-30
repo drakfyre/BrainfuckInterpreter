@@ -127,8 +127,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BrainfuckInterpreter.cpp" />
+    <ClCompile Include="BFVM.cpp" />
     <ClCompile Include="BrainfuckTool.cpp" />
+    <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="factorial2.b" />
@@ -140,6 +141,7 @@
     <None Include="week6alpha.b" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BFVM.h" />
     <ClInclude Include="BrainfuckTool.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
