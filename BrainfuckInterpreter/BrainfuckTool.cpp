@@ -46,6 +46,18 @@ void BrainfuckTool::Left(int amount)
 	}
 }
 
+void BrainfuckTool::ChangeIndexRelative(int offset)
+{
+	if(offset > 0)
+	{
+		Right(offset);
+	}
+	else if(offset < 0)
+	{
+		Left(offset);
+	}
+}
+
 void BrainfuckTool::Plus()
 {
 	bfvm.brainfuckString += '+';
@@ -115,12 +127,18 @@ void BrainfuckTool::CopyTo(int offset)
 // Does this mean that this could be generally considered "AddTo"? for the cases that are non-zero? (But that doesn't imply the move...)
 // Not sure how useful this actually is, just happened to write it by accident when trying to make a more useful function
 // (CURRENTLY UNTESTED)
-void BrainfuckTool::MoveTo(int offset)
+void BrainfuckTool::MoveToOffset(int offset)
 {
 	Branch();		// If current value is 0 we end up at associated loop; we'd be done in that case anyway so that's perfect
-	Right(offset);	// We move to our destination
+	ChangeIndexRelative(offset);	// We move to our destination
 	Plus();			// We add 1 to our destination
-	Left(offset);	// We move back to our source
+	ChangeIndexRelative(-offset);	// We move back to our source
 	Minus();		// We subtract 1 from our source
 	Loop();			// If our source is 0, stop looping
+}
+
+void BrainfuckTool::MoveToIndex(int index)
+{
+	int offset = index - bfvm.dataIndex;
+	MoveToOffset(offset);
 }
