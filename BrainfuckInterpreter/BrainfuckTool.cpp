@@ -51,7 +51,7 @@ void BrainfuckTool::ChangeIndexRelative(int offset)
 	}
 	else if(offset < 0)
 	{
-		Left(offset);
+		Left(-offset);
 	}
 }
 

@@ -51,6 +51,7 @@ int main()
 
     // Set width constant (we may move this around later)
     tool.SetValue(25);
+    tool.MoveToOffset(1);
     tool.Right();       // 25*15 + 15 + 4
 
 
