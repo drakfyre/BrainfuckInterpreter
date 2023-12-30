@@ -12,39 +12,39 @@ bool BFVM::Step()
         {
         case '>':
             // Increment the data pointer by one (to point to the next cell to the right).
-            dataPointer++;
-            if (dataPointer - data >= 30000)
+            dataIndex++;
+            if (dataIndex >= 30000)
             {
-                dataPointer = data;
+                dataIndex = 0;
             }
             break;
         case '<':
             // Decrement the data pointer by one (to point to the next cell to the left).
-            dataPointer--;
-            if (dataPointer - data < 0)
+            dataIndex--;
+            if (dataIndex < 0)
             {
-                dataPointer = data + 30000 - 1;
+                dataIndex = 30000 - 1;
             }
             break;
         case '+':
             // Increment the byte at the data pointer by one.
-            (*dataPointer)++;
+            data[dataIndex]++;
             break;
         case '-':
             // Decrement the byte at the data pointer by one.
-            (*dataPointer)--;
+            data[dataIndex]--;
             break;
         case '.':
             // 	Output the byte at the data pointer.
-            std::cout << *dataPointer;
+            std::cout << data[dataIndex];
             break;
         case ',':
             // Accept one byte of input, storing its value in the byte at the data pointer.
-            std::cin >> *dataPointer;
+            std::cin >> data[dataIndex];
             break;
         case '[':
             // 	If the byte at the data pointer is zero, then instead of moving the instruction pointer forward to the next command, jump it forward to the command after the matching ] command.
-            if (*dataPointer == 0)
+            if (data[dataIndex] == 0)
             {
                 // Scan forward and set data pointer to matching ]
                 ScanForBracket(currentCharacterIndex, '[');
@@ -52,7 +52,7 @@ bool BFVM::Step()
             break;
         case ']':
             // If the byte at the data pointer is nonzero, then instead of moving the instruction pointer forward to the next command, jump it back to the command after the matching [ command.
-            if (*dataPointer != 0)
+            if (data[dataIndex] != 0)
             {
                 // Scan backward and set data pointer to matching [
                 ScanForBracket(currentCharacterIndex, ']');
