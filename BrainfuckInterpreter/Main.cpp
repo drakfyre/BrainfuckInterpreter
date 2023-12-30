@@ -73,9 +73,9 @@ int main()
 
     //std::cin >> brainfuckString;
 
-    BFVM bfvm(tool.bfString);
-    while(bfvm.Step())
-    {
+    //BFVM bfvm(tool.);
+    //while(bfvm.Step())
+    //{
 
-    }
+    //}
 }

@@ -31,7 +31,8 @@ void BrainfuckTool::Right(int amount)
 	for (int i = 0; i < amount; i++)
 	{
 		//std::cout << '>';
-		bfString += '>';
+		bfvm.brainfuckString += '>';
+		bfvm.Step();
 	}
 }
 
@@ -40,37 +41,43 @@ void BrainfuckTool::Left(int amount)
 	for (int i = 0; i < amount; i++)
 	{
 		//std::cout << '<';
-		bfString += '<';
+		bfvm.brainfuckString += '<';
+		bfvm.Step();
 	}
 }
 
 void BrainfuckTool::Plus()
 {
-	bfString += '+';
+	bfvm.brainfuckString += '+';
+	bfvm.Step();
 }
 
 void BrainfuckTool::Minus()
 {
-	bfString += '-';
+	bfvm.brainfuckString += '-';
+	bfvm.Step();
 }
 
 void BrainfuckTool::Out(int length)
 {
 	for (int i = 0; i < length; i++)
 	{
-		bfString += '.';
+		bfvm.brainfuckString += '.';
+		bfvm.Step();
 		Right();
 	}
 }
 
 void BrainfuckTool::Branch()
 {
-	bfString += '[';
+	bfvm.brainfuckString += '[';
+	bfvm.Step();
 }
 
 void BrainfuckTool::Loop()
 {
-	bfString += ']';
+	bfvm.brainfuckString += ']';
+	bfvm.Step();
 }
 
 // Copies value from current memory position to offset from current memory positon, assuming that the destination contains 0

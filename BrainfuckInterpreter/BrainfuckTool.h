@@ -18,7 +18,6 @@ public:
 	void CopyTo(int offset);
 	void MoveTo(int offset);
 
-	std::string bfString = "";
 	BFVM bfvm;
 };
 
