@@ -6,7 +6,6 @@ void BrainfuckTool::SetValue(int value)
 {
 	for (int i = 0; i < value; i++)
 	{
-		//std::cout << '+';
 		BrainfuckTool::Plus();
 	}
 }
@@ -30,7 +29,6 @@ void BrainfuckTool::Right(int amount)
 {
 	for (int i = 0; i < amount; i++)
 	{
-		//std::cout << '>';
 		bfvm.brainfuckString += '>';
 		bfvm.Step();
 	}
@@ -40,7 +38,6 @@ void BrainfuckTool::Left(int amount)
 {
 	for (int i = 0; i < amount; i++)
 	{
-		//std::cout << '<';
 		bfvm.brainfuckString += '<';
 		bfvm.Step();
 	}
