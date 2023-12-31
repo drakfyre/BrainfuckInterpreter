@@ -30,12 +30,26 @@ int main()
     constexpr int kLevelHeight = 15;
 
     BrainfuckTool tool;
+    int wIndex = tool.NewVariable('w');
+    int aIndex = tool.NewVariable('a');
+    int sIndex = tool.NewVariable('s');
+    int dIndex = tool.NewVariable('d');
+    int inputCharacterIndex = tool.NewVariable(0);
     int widthIndex = tool.NewVariable(kLevelWidth);
     int playerPositionIndex = tool.NewVariable(1 + kLevelWidth * 1); // Position (1,1)
     int hasKeyIndex = tool.NewVariable(0);
+    int gameRunning = tool.NewVariable(1);
     int gameMapIndex = tool.NewArray(levelArray, kLevelWidth * kLevelHeight, kLevelWidth);
+
+    tool.ChangeIndexAbsolute(gameMapIndex);
+    tool.Branch();
     tool.ChangeIndexAbsolute(gameMapIndex);
     tool.OutString(kLevelWidth * kLevelHeight + kLevelHeight); // Level width*height + 1 per height (because of the newlines we added in NewArray)
+    tool.ChangeIndexAbsolute(inputCharacterIndex);
+    tool.In();
+    tool.PlayerLogic(wIndex,aIndex,sIndex,dIndex);
+    tool.ChangeIndexAbsolute(gameRunning);
+    tool.Loop();
 
 
     // Okay, so in our original progam, during our output function if the position matches the player, we output @

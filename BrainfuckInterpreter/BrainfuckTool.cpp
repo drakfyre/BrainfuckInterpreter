@@ -96,6 +96,12 @@ void BrainfuckTool::Minus()
 	bfvm.Step();
 }
 
+void BrainfuckTool::In()
+{
+	bfvm.brainfuckString += ',';
+	bfvm.Step();
+}
+
 void BrainfuckTool::Out()
 {
 	bfvm.brainfuckString += '.';
@@ -147,7 +153,7 @@ void BrainfuckTool::MoveToIndex(int index)
 
 int BrainfuckTool::NewTempVariable()
 {
-	ChangeIndexToNextZero();
+	Right();
 	return bfvm.dataIndex;
 }
 
@@ -176,4 +182,9 @@ void BrainfuckTool::CopyToIndex(int index)
 {
 	int offset = index - bfvm.dataIndex;
 	CopyToOffset(offset);
+}
+
+void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex)
+{
+
 }

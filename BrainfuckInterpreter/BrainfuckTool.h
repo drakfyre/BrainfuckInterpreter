@@ -10,7 +10,7 @@ public:
 	void Left();
 	void Plus();
 	void Minus();
-	// In
+	void In();
 	void Out();
 	void Branch();
 	void Loop();
@@ -26,6 +26,7 @@ public:
 	void ChangeIndexToNextZero();
 	void CopyToOffset(int offset);
 	void CopyToIndex(int index);
+	void PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex);
 	void MoveToOffset(int offset);
 	void MoveToIndex(int index); // might have a problem?
 	void OutString(int length);
