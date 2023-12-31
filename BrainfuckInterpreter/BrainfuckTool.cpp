@@ -2,16 +2,18 @@
 #include <iostream>
 
 // This currently assumes that the value we are setting is 0
-void BrainfuckTool::SetValue(int value)
+int BrainfuckTool::SetValue(int value)
 {
 	for (int i = 0; i < value; i++)
 	{
 		BrainfuckTool::Plus();
 	}
+	return bfvm.dataIndex;
 }
 
-void BrainfuckTool::SetArray(char inputArray[], int arrayLength, int arrayWidth)
+int BrainfuckTool::SetArray(char inputArray[], int arrayLength, int arrayWidth)
 {
+	int returnVal = bfvm.dataIndex;
 	for (int i = 0; i < arrayLength; i++)
 	{
 		SetValue(inputArray[i]);
@@ -23,35 +25,32 @@ void BrainfuckTool::SetArray(char inputArray[], int arrayLength, int arrayWidth)
 			Right();
 		}
 	}
+	return returnVal;
 }
 
-void BrainfuckTool::Right(int amount)
+void BrainfuckTool::Right()
 {
-	for (int i = 0; i < amount; i++)
-	{
-		bfvm.brainfuckString += '>';
-		bfvm.Step();
-	}
+	bfvm.brainfuckString += '>';
+	bfvm.Step();
 }
 
-void BrainfuckTool::Left(int amount)
+void BrainfuckTool::Left()
 {
-	for (int i = 0; i < amount; i++)
-	{
-		bfvm.brainfuckString += '<';
-		bfvm.Step();
-	}
+	bfvm.brainfuckString += '<';
+	bfvm.Step();
 }
 
 void BrainfuckTool::ChangeIndexRelative(int offset)
 {
-	if(offset > 0)
+	while(offset > 0)
 	{
-		Right(offset);
+		Right();
+		offset--;
 	}
-	else if(offset < 0)
+	while(offset < 0)
 	{
-		Left(-offset);
+		Left();
+		offset++;
 	}
 }
 

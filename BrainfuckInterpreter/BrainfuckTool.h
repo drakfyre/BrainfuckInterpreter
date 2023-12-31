@@ -6,8 +6,8 @@ class BrainfuckTool
 {
 public:
 	/// Built-in brainfuck
-	void Right(int amount = 1);
-	void Left(int amount = 1);
+	void Right();
+	void Left();
 	void Plus();
 	void Minus();
 	// In
@@ -17,8 +17,8 @@ public:
 
 	/// Our additional functionality
 	// This currently assumes that the value we are setting is 0
-	void SetValue(int value);
-	void SetArray(char inputArray[], int arrayLength, int arrayWidth = 0);
+	int SetValue(int value);
+	int SetArray(char inputArray[], int arrayLength, int arrayWidth = 0);
 	void ChangeIndexRelative(int offset);
 	void ChangeIndexToNextZero();
 	void CopyTo(int offset);
