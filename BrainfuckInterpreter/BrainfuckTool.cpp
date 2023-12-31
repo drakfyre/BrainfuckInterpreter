@@ -215,32 +215,27 @@ void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, 
 			Branch();
 				ChangeIndexAbsolute(dIndex);
 				Branch();
-					// Invalid input, I think?
+				// Invalid input, I think?
 				Loop();
 				// Case d, I think?
+				ChangeIndexAbsolute(playerPositionIndex);
+				// Add 1
+				Branch();
 			Loop();
 			// Case s, I think?
+			ChangeIndexAbsolute(playerPositionIndex);
+			// Add width
+			Branch();
 		Loop();
 		// Case a, I think?
+		ChangeIndexAbsolute(playerPositionIndex);
+		// Subtract 1
+		Branch();
 	Loop();
 	// Case w, I think?
 	ChangeIndexAbsolute(playerPositionIndex);
-	
-
-
-
-	ChangeIndexAbsolute(aIndex);
-	Branch();
-	// Try to move left... no wait... try to move any other direction?  Damn...
+	// Subtract width
 	Loop();
-
-	ChangeIndexAbsolute(sIndex);
-	Branch();
-	// Try to move down... no wait... try to move any other direction?  Damn...
 	Loop();
-
-	ChangeIndexAbsolute(dIndex);
-	Branch();
-	// Try to move right... no wait... try to move any other direction?  Damn...
 	Loop();
 }
