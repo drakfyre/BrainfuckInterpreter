@@ -209,33 +209,10 @@ void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, 
 
 	ChangeIndexAbsolute(wIndex);
 	Branch();
-		ChangeIndexAbsolute(aIndex);
-		Branch();
-			ChangeIndexAbsolute(sIndex);
-			Branch();
-				ChangeIndexAbsolute(dIndex);
-				Branch();
-				// Invalid input, I think?
-				Loop();
-				// Case d, I think?
-				ChangeIndexAbsolute(playerPositionIndex);
-				// Add 1
-				Branch();
-			Loop();
-			// Case s, I think?
-			ChangeIndexAbsolute(playerPositionIndex);
-			// Add width
-			Branch();
-		Loop();
-		// Case a, I think?
-		ChangeIndexAbsolute(playerPositionIndex);
-		// Subtract 1
-		Branch();
 	Loop();
-	// Case w, I think?
-	ChangeIndexAbsolute(playerPositionIndex);
-	// Subtract width
-	Loop();
-	Loop();
-	Loop();
+
+
+	// Idea, move right looking for 0 as a case statement method?
+
+	// Also, need to remeber to restore all the values before exiting!
 }
