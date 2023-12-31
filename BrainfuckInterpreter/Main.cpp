@@ -41,7 +41,7 @@ int main()
     int gameRunning = tool.NewVariable(1);
     int gameMapIndex = tool.NewArray(levelArray, kLevelWidth * kLevelHeight, kLevelWidth);
 
-    tool.ChangeIndexAbsolute(gameMapIndex);
+    tool.ChangeIndexAbsolute(gameRunning);
 
     tool.Branch();
     tool.ChangeIndexAbsolute(gameMapIndex);
