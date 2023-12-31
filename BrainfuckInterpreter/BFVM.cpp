@@ -54,20 +54,24 @@ bool BFVM::Step()
             // If the byte at the data pointer is nonzero, then instead of moving the instruction pointer forward to the next command, jump it back to the command after the matching [ command.
             if (data[dataIndex] != 0)
             {
+                // This keeps track of where we were; we want to exceed this point when evaluating
                 int bracketIndex = currentCharacterIndex;
 
                 // Scan backward and set data pointer to matching [
                 ScanForBracket(currentCharacterIndex, ']');
                 
+                // This prevents the loop from being entered again every time we hit ']' while evaluating the loop
                 if(!evaluatingLoop)
                 {
                     evaluatingLoop = true;
-                    // Fully evaluate loop before continuing (Untested)
+                    // Fully evaluate loop before continuing (Lightly tested)
                     while(currentCharacterIndex <= bracketIndex)
                     {
                         Step();
                     }
                     evaluatingLoop = false;
+
+                    // We end up overshooting by one overall so I just dial it back one here...
                     currentCharacterIndex--;
                 }
             }
