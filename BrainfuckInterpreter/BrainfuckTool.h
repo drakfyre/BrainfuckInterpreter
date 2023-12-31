@@ -11,7 +11,7 @@ public:
 	void Plus();
 	void Minus();
 	// In
-	void Out(int length = 1);
+	void Out();
 	void Branch();
 	void Loop();
 
@@ -20,10 +20,11 @@ public:
 	int SetValue(int value);
 	int SetArray(char inputArray[], int arrayLength, int arrayWidth = 0);
 	void ChangeIndexRelative(int offset);
+	void ChangeIndexAbsolute(int index);
 	void ChangeIndexToNextZero();
-	void CopyTo(int offset);
+	void CopyToOffset(int offset);
 	void MoveToOffset(int offset);
-	void MoveToIndex(int index);
+	void OutString(int length);
 
 	BFVM bfvm;
 };

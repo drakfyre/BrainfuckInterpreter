@@ -62,7 +62,7 @@ int main()
     tool.ChangeIndexRelative(-(25 * 15 + 15 + 5));
 
     // Finally, we output the whole thing
-    tool.Out(25 * 15 + 15);
+    tool.OutString(25 * 15 + 15);
 
     //std::cout << tool.bfString;
 

@@ -74,13 +74,19 @@ void BrainfuckTool::Minus()
 	bfvm.Step();
 }
 
-void BrainfuckTool::Out(int length)
+void BrainfuckTool::Out()
 {
-	for (int i = 0; i < length; i++)
+	bfvm.brainfuckString += '.';
+	bfvm.Step();
+}
+
+void BrainfuckTool::OutString(int length)
+{
+	while (length > 0)
 	{
-		bfvm.brainfuckString += '.';
-		bfvm.Step();
+		Out();
 		Right();
+		length--;
 	}
 }
 
@@ -98,7 +104,7 @@ void BrainfuckTool::Loop()
 
 // Copies value from current memory position to offset from current memory positon, assuming that the destination contains 0
 // (CURRENTLY INCOMPLETE)
-void BrainfuckTool::CopyTo(int offset)
+void BrainfuckTool::CopyToOffset(int offset)
 {
 	// I've never brainfucked before so bear with me
 	// We kinda can't make this non-destructive in some way, at least in interim
@@ -142,7 +148,7 @@ void BrainfuckTool::MoveToOffset(int offset)
 }
 
 // Untested
-void BrainfuckTool::MoveToIndex(int index)
+void BrainfuckTool::ChangeIndexAbsolute(int index)
 {
 	int offset = index - bfvm.dataIndex;
 	MoveToOffset(offset);
