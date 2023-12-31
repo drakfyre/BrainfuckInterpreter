@@ -15,17 +15,24 @@ public:
 	void Branch();
 	void Loop();
 
-	/// Our additional functionality
+	/// Macro functionality
 	// This currently assumes that the value we are setting is 0
-	int SetValue(int value);
-	int SetArray(char inputArray[], int arrayLength, int arrayWidth = 0);
+	void SetValue(int value);
+	void SetArray(char inputArray[], int arrayLength, int arrayWidth = 0);
+	int NewVariable(int value);
+	int NewArray(char inputArray[], int arrayLength, int arrayWidth);
 	void ChangeIndexRelative(int offset);
 	void ChangeIndexAbsolute(int index);
 	void ChangeIndexToNextZero();
 	void CopyToOffset(int offset);
+	void CopyToIndex(int index);
 	void MoveToOffset(int offset);
+	void MoveToIndex(int index); // might have a problem?
 	void OutString(int length);
 
 	BFVM bfvm;
+
+private:
+	int NewTempVariable();
 };
 
