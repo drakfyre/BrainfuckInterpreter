@@ -47,7 +47,7 @@ int main()
     tool.OutString(kLevelWidth * kLevelHeight + kLevelHeight); // Level width*height + 1 per height (because of the newlines we added in NewArray)
     tool.ChangeIndexAbsolute(inputCharacterIndex);
     tool.In();
-    //tool.PlayerLogic(wIndex,aIndex,sIndex,dIndex);
+    //tool.PlayerLogic(wIndex,aIndex,sIndex,dIndex,playerPositionIndex);
     tool.ChangeIndexAbsolute(gameRunning);
     tool.Loop();
 

@@ -184,7 +184,7 @@ void BrainfuckTool::CopyToIndex(int index)
 	CopyToOffset(offset);
 }
 
-void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex)
+void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, int playerPositionIndex)
 {
 	int origin = bfvm.dataIndex;
 	int counter = NewTempVariable();
@@ -209,8 +209,25 @@ void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex)
 
 	ChangeIndexAbsolute(wIndex);
 	Branch();
-	// Try to move up... no wait... try to move any other direction?  Damn...
+		ChangeIndexAbsolute(aIndex);
+		Branch();
+			ChangeIndexAbsolute(sIndex);
+			Branch();
+				ChangeIndexAbsolute(dIndex);
+				Branch();
+					// Invalid input, I think?
+				Loop();
+				// Case d, I think?
+			Loop();
+			// Case s, I think?
+		Loop();
+		// Case a, I think?
 	Loop();
+	// Case w, I think?
+	ChangeIndexAbsolute(playerPositionIndex);
+	
+
+
 
 	ChangeIndexAbsolute(aIndex);
 	Branch();
