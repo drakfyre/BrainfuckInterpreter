@@ -186,5 +186,44 @@ void BrainfuckTool::CopyToIndex(int index)
 
 void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex)
 {
+	int origin = bfvm.dataIndex;
+	int counter = NewTempVariable();
 
+	ChangeIndexAbsolute(origin);
+
+	// Subtract from all till origin is 0
+	Branch();
+	ChangeIndexAbsolute(counter);
+	Plus();
+	ChangeIndexAbsolute(wIndex);
+	Minus();
+	ChangeIndexAbsolute(aIndex);
+	Minus();
+	ChangeIndexAbsolute(sIndex);
+	Minus();
+	ChangeIndexAbsolute(dIndex);
+	Minus();
+	ChangeIndexAbsolute(origin);
+	Minus();
+	Loop();	// Origin is now 0, counter is now original value, and maybe one of w/a/s/d indexes are 0?
+
+	ChangeIndexAbsolute(wIndex);
+	Branch();
+	// Try to move up... no wait... try to move any other direction?  Damn...
+	Loop();
+
+	ChangeIndexAbsolute(aIndex);
+	Branch();
+	// Try to move left... no wait... try to move any other direction?  Damn...
+	Loop();
+
+	ChangeIndexAbsolute(sIndex);
+	Branch();
+	// Try to move down... no wait... try to move any other direction?  Damn...
+	Loop();
+
+	ChangeIndexAbsolute(dIndex);
+	Branch();
+	// Try to move right... no wait... try to move any other direction?  Damn...
+	Loop();
 }
