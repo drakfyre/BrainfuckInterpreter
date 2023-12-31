@@ -63,11 +63,12 @@ bool BFVM::Step()
                 {
                     evaluatingLoop = true;
                     // Fully evaluate loop before continuing (Untested)
-                    while(currentCharacterIndex < bracketIndex)
+                    while(currentCharacterIndex <= bracketIndex)
                     {
                         Step();
                     }
                     evaluatingLoop = false;
+                    currentCharacterIndex--;
                 }
             }
             break;
