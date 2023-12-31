@@ -42,7 +42,6 @@ int main()
     int gameMapIndex = tool.NewArray(levelArray, kLevelWidth * kLevelHeight, kLevelWidth);
 
     tool.ChangeIndexAbsolute(gameRunning);
-
     tool.Branch();
     tool.ChangeIndexAbsolute(gameMapIndex);
     tool.OutString(kLevelWidth * kLevelHeight + kLevelHeight); // Level width*height + 1 per height (because of the newlines we added in NewArray)
@@ -50,12 +49,7 @@ int main()
     tool.In();
     tool.PlayerLogic(wIndex,aIndex,sIndex,dIndex);
     tool.ChangeIndexAbsolute(gameRunning);
-    tool.Loop(false);
-
-    while(true)
-    {
-        tool.bfvm.Step(false);
-    }
+    tool.Loop();
 
     // Okay, so in our original progam, during our output function if the position matches the player, we output @
     // Doing that during the output in Brainfuck would require us to thrash around between memory, checking every spot to see if it should be @
