@@ -8,7 +8,7 @@ class BFVM
 {
 public:
     BFVM(string brainfuckString) : brainfuckString{ brainfuckString } {};
-    bool Step();
+    bool Step(bool resolveLoops = true);
 
 private:
     uint8_t data[30000] = { 0 };

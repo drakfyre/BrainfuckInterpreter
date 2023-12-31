@@ -13,7 +13,7 @@ public:
 	void In();
 	void Out();
 	void Branch();
-	void Loop();
+	void Loop(bool resolve = true);
 
 	/// Macro functionality
 	// This currently assumes that the value we are setting is 0

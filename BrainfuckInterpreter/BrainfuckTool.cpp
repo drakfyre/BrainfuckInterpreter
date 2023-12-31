@@ -124,10 +124,10 @@ void BrainfuckTool::Branch()
 	bfvm.Step();
 }
 
-void BrainfuckTool::Loop()
+void BrainfuckTool::Loop(bool resolveLoops)
 {
 	bfvm.brainfuckString += ']';
-	bfvm.Step();
+	bfvm.Step(resolveLoops);
 }
 
 // Moves value from current memory position to offset from current memory position, assuming that the destination contains 0

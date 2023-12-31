@@ -4,7 +4,7 @@
 #include "BrainfuckTool.h"
 
 // Steps the VM, if we run out of instructions we return false
-bool BFVM::Step()
+bool BFVM::Step(bool resolveLoops)
 {
     if(brainfuckString[currentCharacterIndex] != '\0')
     {
@@ -60,19 +60,22 @@ bool BFVM::Step()
                 // Scan backward and set data pointer to matching [
                 ScanForBracket(currentCharacterIndex, ']');
                 
-                // This prevents the loop from being entered again every time we hit ']' while evaluating the loop
-                if(!evaluatingLoop)
+                if (resolveLoops)
                 {
-                    evaluatingLoop = true;
-                    // Fully evaluate loop before continuing (Lightly tested)
-                    while(currentCharacterIndex <= bracketIndex)
+                    // This prevents the loop from being entered again every time we hit ']' while evaluating the loop
+                    if (!evaluatingLoop)
                     {
-                        Step();
-                    }
-                    evaluatingLoop = false;
+                        evaluatingLoop = true;
+                        // Fully evaluate loop before continuing (Lightly tested)
+                        while (currentCharacterIndex <= bracketIndex)
+                        {
+                            Step();
+                        }
+                        evaluatingLoop = false;
 
-                    // We end up overshooting by one overall so I just dial it back one here...
-                    currentCharacterIndex--;
+                        // We end up overshooting by one overall so I just dial it back one here...
+                        currentCharacterIndex--;
+                    }
                 }
             }
             break;
