@@ -36,5 +36,6 @@ public:
 
 private:
 	int NewTempVariable();
+	int waitingToExecute = 0;
 };
 

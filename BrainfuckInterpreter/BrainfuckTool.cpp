@@ -47,13 +47,19 @@ int BrainfuckTool::NewArray(char inputArray[], int arrayLength, int arrayWidth)
 void BrainfuckTool::Right()
 {
 	bfvm.brainfuckString += '>';
-	bfvm.Step();
+	if (!waitingToExecute)
+	{
+		bfvm.Step();
+	}
 }
 
 void BrainfuckTool::Left()
 {
 	bfvm.brainfuckString += '<';
-	bfvm.Step();
+	if (!waitingToExecute)
+	{
+		bfvm.Step();
+	}
 }
 
 void BrainfuckTool::ChangeIndexRelative(int offset)
@@ -87,25 +93,37 @@ void BrainfuckTool::ChangeIndexToNextZero()
 void BrainfuckTool::Plus()
 {
 	bfvm.brainfuckString += '+';
-	bfvm.Step();
+	if (!waitingToExecute)
+	{
+		bfvm.Step();
+	}
 }
 
 void BrainfuckTool::Minus()
 {
 	bfvm.brainfuckString += '-';
-	bfvm.Step();
+	if (!waitingToExecute)
+	{
+		bfvm.Step();
+	}
 }
 
 void BrainfuckTool::In()
 {
 	bfvm.brainfuckString += ',';
-	bfvm.Step();
+	if (!waitingToExecute)
+	{
+		bfvm.Step();
+	}
 }
 
 void BrainfuckTool::Out()
 {
 	bfvm.brainfuckString += '.';
-	bfvm.Step();
+	if (!waitingToExecute)
+	{
+		bfvm.Step();
+	}
 }
 
 void BrainfuckTool::OutString(int length)
@@ -121,13 +139,18 @@ void BrainfuckTool::OutString(int length)
 void BrainfuckTool::Branch()
 {
 	bfvm.brainfuckString += '[';
-	bfvm.Step();
+	waitingToExecute++;
 }
 
 void BrainfuckTool::Loop(bool resolveLoops)
 {
 	bfvm.brainfuckString += ']';
-	bfvm.Step(resolveLoops);
+	waitingToExecute--;
+	if(!waitingToExecute)
+	{
+		bfvm.Step(resolveLoops);
+	}
+
 }
 
 // Moves value from current memory position to offset from current memory position, assuming that the destination contains 0
@@ -176,6 +199,7 @@ void BrainfuckTool::CopyToOffset(int offset)
 	ChangeIndexAbsolute(counter);	// We change index to our counter
 	Minus();						// Subtract 1 from our counter
 	Loop();							// Loop till counter is 0
+	ChangeIndexAbsolute(origin);
 }
 
 void BrainfuckTool::CopyToIndex(int index)
@@ -186,7 +210,44 @@ void BrainfuckTool::CopyToIndex(int index)
 
 void BrainfuckTool::Not()
 {
+	// No matter what we drop in, put a 1 next door
+	Right();
+	Plus();
 
+
+	Left();
+	Branch();
+	// We're not zero if we're here
+	Branch();
+	Minus();
+	Loop();
+	// Now we're 0
+	Right();
+	Minus(); // 0 next door
+	Left();
+	Loop();
+
+	Right();
+	Branch();
+	Left();
+	Plus();
+	Right();
+	Minus();
+	Loop();
+	Left();
+	
+	// At this point, if we droped a 0 in, there should be a one in the next slot over
+
+
+
+	
+	
+	//Branch();
+	//Left();
+	//Loop();
+	//Right();
+
+	//Plus(); // <- How do I deal with this, I don't want it to run if the loop was taken
 }
 
 void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, int playerPositionIndex)

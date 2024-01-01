@@ -30,6 +30,10 @@ int main()
     constexpr int kLevelHeight = 15;
 
     BrainfuckTool tool;
+    tool.Not();
+    tool.Not();
+    tool.Not();
+    tool.Not();
     int wIndex = tool.NewVariable('w');
     int aIndex = tool.NewVariable('a');
     int sIndex = tool.NewVariable('s');
