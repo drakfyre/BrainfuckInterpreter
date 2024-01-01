@@ -26,6 +26,7 @@ public:
 	void ChangeIndexToNextZero();
 	void CopyToOffset(int offset);
 	void CopyToIndex(int index);
+	void Not();
 	void PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, int playerPositionIndex);
 	void MoveToOffset(int offset);
 	void MoveToIndex(int index); // might have a problem?

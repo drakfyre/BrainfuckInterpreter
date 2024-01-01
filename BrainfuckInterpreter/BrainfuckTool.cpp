@@ -184,6 +184,11 @@ void BrainfuckTool::CopyToIndex(int index)
 	CopyToOffset(offset);
 }
 
+void BrainfuckTool::Not()
+{
+
+}
+
 void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, int playerPositionIndex)
 {
 	int origin = bfvm.dataIndex;
