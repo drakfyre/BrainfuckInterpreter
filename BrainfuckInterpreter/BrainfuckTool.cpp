@@ -160,11 +160,19 @@ void BrainfuckTool::OutString(int length)
 	}
 }
 
-void BrainfuckTool::Branch()
+void BrainfuckTool::Branch(bool waitToResolve)
 {
 	bfvm.brainfuckString += '[';
-	executionQueue++;
-	bracketDepth++;
+
+	if(waitToResolve)
+	{
+		executionQueue++;
+		bracketDepth++;
+	}
+	else
+	{
+		bfvm.Step();
+	}
 }
 
 void BrainfuckTool::Loop(bool resolveLoops)
@@ -172,6 +180,10 @@ void BrainfuckTool::Loop(bool resolveLoops)
 	bfvm.brainfuckString += ']';
 	executionQueue++;
 	bracketDepth--;
+	if(bracketDepth < 0)
+	{
+		bracketDepth = 0;
+	}
 
 	if (!bracketDepth)
 	{
@@ -334,7 +346,7 @@ void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, 
 
 	Branch();
 	// Add to counter
-	ChangeIndexAbsolute(counter);
+	ChangeIndexAbsolute(counter);	// ChangeIndexAbsolute breaks inside branches because we don't evaluate up to this point...
 	Plus();
 	// Subtract from all till origin is 0
 	ChangeIndexAbsolute(wIndex);

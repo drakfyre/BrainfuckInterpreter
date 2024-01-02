@@ -12,7 +12,7 @@ public:
 	void Minus();
 	void In();
 	void Out();
-	void Branch();
+	void Branch(bool waitToResolve = true);
 	void Loop(bool resolve = true);
 
 	/// Macro functionality

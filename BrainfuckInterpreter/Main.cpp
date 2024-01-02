@@ -42,7 +42,7 @@ int main()
     int gameMapIndex = tool.NewArray(levelArray, kLevelWidth * kLevelHeight, kLevelWidth);
 
     tool.ChangeIndexAbsolute(gameRunning);
-    tool.Branch(); // Main branch now stops execution because it thinks it needs to resolve to the end.  Maybe make a force no resolve?
+    tool.Branch(false); // Main branch now stops execution because it thinks it needs to resolve to the end.  Maybe make a force no resolve?
     tool.ChangeIndexAbsolute(gameMapIndex);
     tool.OutString(kLevelWidth * kLevelHeight + kLevelHeight); // Level width*height + 1 per height (because of the newlines we added in NewArray)
     tool.ChangeIndexAbsolute(inputCharacterIndex);
