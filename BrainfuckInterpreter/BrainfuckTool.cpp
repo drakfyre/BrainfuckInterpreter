@@ -354,19 +354,27 @@ void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, 
 	Right();
 	Branch();
 		// w was entered
+		Minus(); // Manually reset our nondestructivenot (may want to handle this elsewhere later)
 		ChangeIndexAbsolute(widthIndex);
 		SubtractFromIndex(playerPositionIndex);
-		Right();
+
+		// This gets us back to the same position as if we didn't branch so that our "absolute" functions still work
+		ChangeIndexAbsolute(wIndex);
+		Right;
 	Loop();
 
-	ChangeIndexAbsolute(aIndex); // I think this is undefined behaviour after a branch when we move differently in the branch... gotta fix
+	ChangeIndexAbsolute(aIndex);
 	NonDestructiveNot();
 	Right();
 	Branch();
 		// a was entered
+		Minus(); // Manually reset our nondestructivenot (may want to handle this elsewhere later)
 		ChangeIndexAbsolute(playerPositionIndex);
 		Minus();
-		Right();
+
+		// This gets us back to the same position as if we didn't branch so that our "absolute" functions still work
+		ChangeIndexAbsolute(wIndex);
+		Right;
 	Loop();
 
 	ChangeIndexAbsolute(sIndex);
@@ -374,19 +382,27 @@ void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, 
 	Right();
 	Branch();
 		// s was entered
+		Minus(); // Manually reset our nondestructivenot (may want to handle this elsewhere later)
 		ChangeIndexAbsolute(widthIndex);
 		AddToIndex(playerPositionIndex);
-		Right();
+
+		// This gets us back to the same position as if we didn't branch so that our "absolute" functions still work
+		ChangeIndexAbsolute(wIndex);
+		Right;
 	Loop();
 
-	ChangeIndexAbsolute(sIndex);
+	ChangeIndexAbsolute(aIndex);
 	NonDestructiveNot();
 	Right();
 	Branch();
 		// d was entered
+		Minus(); // Manually reset our nondestructivenot (may want to handle this elsewhere later)
 		ChangeIndexAbsolute(playerPositionIndex);
 		Plus();
-		Right();
+
+		// This gets us back to the same position as if we didn't branch so that our "absolute" functions still work
+		ChangeIndexAbsolute(wIndex);
+		Right;
 	Loop();
 
 	ChangeIndexAbsolute(counter);
@@ -406,7 +422,7 @@ void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, 
 	// Subtract from counter
 	ChangeIndexAbsolute(counter);
 	Minus();
-	Loop();	// Origin is now 0, counter is now original value, and maybe one of w/a/s/d indexes are 0?
+	Loop();	// Origin is now original value, as are all the other indexes, counter is now 0
 
 	ChangeIndexAbsolute(origin);
 }
