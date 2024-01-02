@@ -275,15 +275,18 @@ void BrainfuckTool::Not()
 
 void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, int playerPositionIndex)
 {
+	// Current index is the key pressed
+
 	int origin = bfvm.dataIndex;
 	int counter = NewTempVariable();
 
 	ChangeIndexAbsolute(origin);
 
-	// Subtract from all till origin is 0
 	Branch();
+	// Add to counter
 	ChangeIndexAbsolute(counter);
 	Plus();
+	// Subtract from all till origin is 0
 	ChangeIndexAbsolute(wIndex);
 	Minus();
 	ChangeIndexAbsolute(aIndex);
@@ -298,10 +301,34 @@ void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, 
 
 	ChangeIndexAbsolute(wIndex);
 	Branch();
+		// w was entered
+		
 	Loop();
-
-
-	// Idea, move right looking for 0 as a case statement method?
+	Not();
+	Branch();
+		ChangeIndexAbsolute(aIndex);
+		Branch();
+		// a was entered
+		Loop();
+		Not();
+		Branch();
+			ChangeIndexAbsolute(sIndex);
+			Branch();
+			// s was entered
+			Loop();
+			Not();
+			Branch();
+				ChangeIndexAbsolute(dIndex);
+				Branch();
+				// d was entered
+				Loop();
+				Not();
+				Branch();
+					// Invalid entry
+				Loop();
+			Loop();
+		Loop();
+	Loop();
 
 	// Also, need to remeber to restore all the values before exiting!
 }
