@@ -34,6 +34,10 @@ int main()
     int aIndex = tool.NewVariable('a');
     int sIndex = tool.NewVariable('s');
     int dIndex = tool.NewVariable('d');
+    int wIndexTemp = tool.NewVariable(0);
+    int aIndexTemp = tool.NewVariable(0);
+    int sIndexTemp = tool.NewVariable(0);
+    int dIndexTemp = tool.NewVariable(0);
     int inputCharacterIndex = tool.NewVariable(0);
     int widthIndex = tool.NewVariable(kLevelWidth);
     int playerPositionIndex = tool.NewVariable(1 + kLevelWidth * 1); // Position (1,1)
@@ -47,7 +51,7 @@ int main()
     tool.OutString(kLevelWidth * kLevelHeight + kLevelHeight); // Level width*height + 1 per height (because of the newlines we added in NewArray)
     tool.ChangeIndexAbsolute(inputCharacterIndex);
     tool.In();
-    tool.PlayerLogic(wIndex,aIndex,sIndex,dIndex,playerPositionIndex,widthIndex);
+    tool.PlayerLogic(wIndex,aIndex,sIndex,dIndex,wIndexTemp,aIndexTemp,sIndexTemp,dIndexTemp,playerPositionIndex,widthIndex);
     tool.ChangeIndexAbsolute(gameRunning);
     tool.Loop();
 

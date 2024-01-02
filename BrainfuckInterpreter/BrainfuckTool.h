@@ -29,9 +29,10 @@ public:
 	void CopyToIndex(int index);
 	void AddToIndex(int index);
 	void SubtractFromIndex(int index);
+	void SetZero();
 	void Not();
 	void NonDestructiveNot();
-	void PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, int playerPositionIndex, int widthIndex);
+	void PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, int wIndexTemp, int aIndexTemp, int sIndexTemp, int dIndexTemp, int playerPositionIndex, int widthIndex);
 	void MoveToOffset(int offset);
 	void MoveToIndex(int index); // might have a problem?
 	void OutString(int length);

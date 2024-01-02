@@ -243,6 +243,8 @@ void BrainfuckTool::CopyToOffset(int offset)
 	ChangeIndexAbsolute(origin);
 	MoveToIndex(counter);
 
+	Right();
+
 	Branch();						// If current value is 0 we end up at associated loop; we'd be done in that case anyway so that's perfect
 	ChangeIndexAbsolute(origin);	// We change index to our origin (which now contains 0)
 	Plus();							// We add 1 to our origin
@@ -285,11 +287,17 @@ void BrainfuckTool::AddToIndex(int index)
 	CopyToIndex(index);
 }
 
-
 void BrainfuckTool::SubtractFromIndex(int index)
 {
 	int offset = index - virtualDataIndex;
 	SubtractFromOffset(offset);
+}
+
+void BrainfuckTool::SetZero()
+{
+	Branch();
+		Minus();
+	Loop();
 }
 
 void BrainfuckTool::Not()
@@ -329,140 +337,95 @@ void BrainfuckTool::Not()
 
 void BrainfuckTool::NonDestructiveNot()
 {
-	// This time I'm just going to use Not() but move the value to the temp variable first and then reverse the left/right stuff
-	MoveToOffset(1);
-
-	// No matter what value in the current data slot, put a 1 next door
-	Plus();
-
-	// Go back to check our original number
-	Right();
-
-	// This checks our original number
-	Branch();
-		// We're not zero if we're here
-		Branch();
-			Minus();
-		Loop();
-		// Now we're 0
-		Left();
-		Minus(); // 0 next door, so we skip the 0 logic ahead
-		Right();  // back to origin
-	Loop();
-
-	// Go right to check our neighbor
-	Left();
-
-	// This checks our neighbor, which would be a 1 if our original number was a 0
-	Branch();
-		// Our original number was 0 if we're here
-		Right();
-		Plus();		// Make our 0 into a 1
-		Left();
-		Minus();	// Reset our neighbor
-	Loop();
 }
 
-void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, int playerPositionIndex, int widthIndex)
+void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, int wIndexTemp, int aIndexTemp, int sIndexTemp, int dIndexTemp, int playerPositionIndex, int widthIndex)
 {
-	// Current index is the key pressed
-
 	int origin = virtualDataIndex;
-	int counter = NewTempVariable();
 
+	// Copy to our temp variables
+	ChangeIndexAbsolute(wIndex);
+	CopyToIndex(wIndexTemp);
+	ChangeIndexAbsolute(aIndex);
+	CopyToIndex(aIndexTemp);
+	ChangeIndexAbsolute(sIndex);
+	CopyToIndex(sIndexTemp);
+	ChangeIndexAbsolute(dIndex);
+	CopyToIndex(dIndexTemp);
+
+	// Current index is the key pressed
 	ChangeIndexAbsolute(origin);
 
 	Branch();
-	// Add to counter
-	ChangeIndexAbsolute(counter);
-	Plus();
 	// Subtract from all till origin is 0
-	ChangeIndexAbsolute(wIndex);
+	ChangeIndexAbsolute(wIndexTemp);
 	Minus();
-	ChangeIndexAbsolute(aIndex);
+	ChangeIndexAbsolute(aIndexTemp);
 	Minus();
-	ChangeIndexAbsolute(sIndex);
+	ChangeIndexAbsolute(sIndexTemp);
 	Minus();
-	ChangeIndexAbsolute(dIndex);
+	ChangeIndexAbsolute(dIndexTemp);
 	Minus();
 	ChangeIndexAbsolute(origin);
 	Minus();
 	Loop();	// Origin is now 0, counter is now original value, and maybe one of w/a/s/d indexes are 0?
 
-	ChangeIndexAbsolute(wIndex);
-	NonDestructiveNot();
-	Right();
+	ChangeIndexAbsolute(wIndexTemp);
+	Not();
 	Branch();
 		// w was entered
-		Minus(); // Manually reset our nondestructivenot (may want to handle this elsewhere later)
 		ChangeIndexAbsolute(widthIndex);
 		SubtractFromIndex(playerPositionIndex);
 
 		// This gets us back to the same position as if we didn't branch so that our "absolute" functions still work
-		ChangeIndexAbsolute(wIndex);
-		Right();
+		ChangeIndexAbsolute(wIndexTemp);
+		Minus();
 	Loop();
 
-	ChangeIndexAbsolute(aIndex);
-	NonDestructiveNot();
-	Right();
+	ChangeIndexAbsolute(aIndexTemp);
+	Not();
 	Branch();
 		// a was entered
-		Minus(); // Manually reset our nondestructivenot (may want to handle this elsewhere later)
 		ChangeIndexAbsolute(playerPositionIndex);
 		Minus();
 
 		// This gets us back to the same position as if we didn't branch so that our "absolute" functions still work
-		ChangeIndexAbsolute(aIndex);
-		Right();
+		ChangeIndexAbsolute(aIndexTemp);
+		Minus();
 	Loop();
 
-	ChangeIndexAbsolute(sIndex);
-	NonDestructiveNot();
-	Right();
+	ChangeIndexAbsolute(sIndexTemp);
+	Not();
 	Branch();
 		// s was entered
-		Minus(); // Manually reset our nondestructivenot (may want to handle this elsewhere later)
 		ChangeIndexAbsolute(widthIndex);
 		AddToIndex(playerPositionIndex);
 
 		// This gets us back to the same position as if we didn't branch so that our "absolute" functions still work
-		ChangeIndexAbsolute(sIndex);
-		Right();
+		ChangeIndexAbsolute(sIndexTemp);
+		Minus();
 	Loop();
 
-	ChangeIndexAbsolute(dIndex);
-	NonDestructiveNot();
-	Right();
+	ChangeIndexAbsolute(dIndexTemp);
+	Not();
 	Branch();
 		// d was entered
-		Minus(); // Manually reset our nondestructivenot (may want to handle this elsewhere later)
 		ChangeIndexAbsolute(playerPositionIndex);
 		Plus();
 
 		// This gets us back to the same position as if we didn't branch so that our "absolute" functions still work
-		ChangeIndexAbsolute(dIndex);
-		Right();
+		ChangeIndexAbsolute(dIndexTemp);
+		Minus();
 	Loop();
 
-	ChangeIndexAbsolute(counter);
-
-	Branch();
-	// Add to all till origin is original number
-	ChangeIndexAbsolute(wIndex);
-	Plus();
-	ChangeIndexAbsolute(aIndex);
-	Plus();
-	ChangeIndexAbsolute(sIndex);
-	Plus();
-	ChangeIndexAbsolute(dIndex);
-	Plus();
-	ChangeIndexAbsolute(origin);
-	Plus();
-	// Subtract from counter
-	ChangeIndexAbsolute(counter);
-	Minus();
-	Loop();	// Origin is now original value, as are all the other indexes, counter is now 0
+	ChangeIndexAbsolute(wIndexTemp);
+	SetZero();
+	ChangeIndexAbsolute(aIndexTemp);
+	SetZero();
+	ChangeIndexAbsolute(sIndexTemp);
+	SetZero();
+	ChangeIndexAbsolute(dIndexTemp);
+	SetZero();
 
 	ChangeIndexAbsolute(origin);
 }
