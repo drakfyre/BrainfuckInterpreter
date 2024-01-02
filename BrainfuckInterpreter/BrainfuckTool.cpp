@@ -28,7 +28,7 @@ void BrainfuckTool::SetArray(char inputArray[], int arrayLength, int arrayWidth)
 // One of the "memory aware" functions, this will set the current variable to a value and move over 2 in prep for more variable declarations
 int BrainfuckTool::NewVariable(int value)
 {
-	int returnVal = bfvm.dataIndex;
+	int returnVal = virtualDataIndex;
 	SetValue(value);
 	Right();
 	Right();
@@ -39,7 +39,7 @@ int BrainfuckTool::NewVariable(int value)
 // We're only going to use this for our map, so it doesn't prep for more variables; gonna put the map at the end
 int BrainfuckTool::NewArray(char inputArray[], int arrayLength, int arrayWidth)
 {
-	int returnVal = bfvm.dataIndex;
+	int returnVal = virtualDataIndex;
 	SetArray(inputArray, arrayLength, arrayWidth);
 	return returnVal;
 }
@@ -55,6 +55,11 @@ void BrainfuckTool::Right()
 	{
 		executionQueue++;
 	}
+	virtualDataIndex++;
+	if(virtualDataIndex >= 30000)
+	{
+		virtualDataIndex = 0;
+	}
 }
 
 void BrainfuckTool::Left()
@@ -67,6 +72,11 @@ void BrainfuckTool::Left()
 	else
 	{
 		executionQueue++;
+	}
+	virtualDataIndex--;
+	if (virtualDataIndex < 0)
+	{
+		virtualDataIndex = 30000 - 1;
 	}
 }
 
@@ -86,7 +96,7 @@ void BrainfuckTool::ChangeIndexRelative(int offset)
 
 void BrainfuckTool::ChangeIndexAbsolute(int index)
 {
-	int offset = index - bfvm.dataIndex;
+	int offset = index - virtualDataIndex;
 	ChangeIndexRelative(offset);
 }
 
@@ -212,21 +222,21 @@ void BrainfuckTool::MoveToOffset(int offset)
 // Untested
 void BrainfuckTool::MoveToIndex(int index)
 {
-	int offset = index - bfvm.dataIndex;
+	int offset = index - virtualDataIndex;
 	MoveToOffset(offset);
 }
 
 int BrainfuckTool::NewTempVariable()
 {
 	Right();
-	return bfvm.dataIndex;
+	return virtualDataIndex;
 }
 
 // Copies value from current memory position to offset from current memory positon, assuming that the destination contains 0
 // (CURRENTLY UNTESTED)
 void BrainfuckTool::CopyToOffset(int offset)
 {
-	int origin = bfvm.dataIndex;
+	int origin = virtualDataIndex;
 
 	// First: Move origin to our counter temporary variable
 	int counter = NewTempVariable();
@@ -246,7 +256,7 @@ void BrainfuckTool::CopyToOffset(int offset)
 
 void BrainfuckTool::SubtractFromOffset(int offset)
 {
-	int origin = bfvm.dataIndex;
+	int origin = virtualDataIndex;
 
 	// First: Move origin to our counter temporary variable
 	int counter = NewTempVariable();
@@ -266,7 +276,7 @@ void BrainfuckTool::SubtractFromOffset(int offset)
 
 void BrainfuckTool::CopyToIndex(int index)
 {
-	int offset = index - bfvm.dataIndex;
+	int offset = index - virtualDataIndex;
 	CopyToOffset(offset);
 }
 
@@ -278,7 +288,7 @@ void BrainfuckTool::AddToIndex(int index)
 
 void BrainfuckTool::SubtractFromIndex(int index)
 {
-	int offset = index - bfvm.dataIndex;
+	int offset = index - virtualDataIndex;
 	SubtractFromOffset(offset);
 }
 
@@ -319,6 +329,9 @@ void BrainfuckTool::Not()
 
 void BrainfuckTool::NonDestructiveNot()
 {
+	// Currently this function causes undefined behaviour because the branch leaves us in a different position in some cases
+	// Going to wipe it all and make it more like the above Not loop but add restoration of the original values, might be easier
+
 	// No matter what value in the current data slot, put a 1 next door
 	Right();
 	Plus();
@@ -331,7 +344,6 @@ void BrainfuckTool::NonDestructiveNot()
 		// We're not zero if we're here
 		Right();
 		Minus(); // 0 next door
-		Left();  // back to origin
 	Loop();
 }
 
@@ -339,7 +351,7 @@ void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, 
 {
 	// Current index is the key pressed
 
-	int origin = bfvm.dataIndex;
+	int origin = virtualDataIndex;
 	int counter = NewTempVariable();
 
 	ChangeIndexAbsolute(origin);

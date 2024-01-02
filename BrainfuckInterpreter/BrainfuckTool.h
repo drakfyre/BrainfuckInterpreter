@@ -42,5 +42,6 @@ private:
 	int NewTempVariable();
 	int bracketDepth = 0;
 	int executionQueue = 0;
+	int virtualDataIndex = 0;
 };
 
