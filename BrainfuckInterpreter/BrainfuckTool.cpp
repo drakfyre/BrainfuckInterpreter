@@ -350,47 +350,63 @@ void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, 
 	Loop();	// Origin is now 0, counter is now original value, and maybe one of w/a/s/d indexes are 0?
 
 	ChangeIndexAbsolute(wIndex);
+	NonDestructiveNot();
+	Right();
 	Branch();
 		// w was entered
 		ChangeIndexAbsolute(widthIndex);
 		SubtractFromIndex(playerPositionIndex);
 		Right();
 	Loop();
+
+	ChangeIndexAbsolute(aIndex);
 	NonDestructiveNot();
 	Right();
 	Branch();
-		ChangeIndexAbsolute(aIndex);
-		Branch();
-			// a was entered
-			ChangeIndexAbsolute(playerPositionIndex);
-			Minus();
-			Right();
-		Loop();
-		NonDestructiveNot();
+		// a was entered
+		ChangeIndexAbsolute(playerPositionIndex);
+		Minus();
 		Right();
-		Branch();
-			ChangeIndexAbsolute(sIndex);
-			Branch();
-				// s was entered
-				ChangeIndexAbsolute(widthIndex);
-				AddToIndex(playerPositionIndex);
-				Right();
-			Loop();
-			NonDestructiveNot();
-			Right();
-			Branch();
-				ChangeIndexAbsolute(dIndex);
-				Branch();
-				// d was entered
-				Loop();
-				NonDestructiveNot();
-				Right();
-				Branch();
-					// Invalid entry
-				Loop();
-			Loop();
-		Loop();
 	Loop();
+
+	ChangeIndexAbsolute(sIndex);
+	NonDestructiveNot();
+	Right();
+	Branch();
+		// s was entered
+		ChangeIndexAbsolute(widthIndex);
+		AddToIndex(playerPositionIndex);
+		Right();
+	Loop();
+
+	ChangeIndexAbsolute(sIndex);
+	NonDestructiveNot();
+	Right();
+	Branch();
+		// d was entered
+		ChangeIndexAbsolute(playerPositionIndex);
+		Plus();
+		Right();
+	Loop();
+
+	ChangeIndexAbsolute(counter);
+
+	Branch();
+	// Add to all till origin is original number
+	ChangeIndexAbsolute(wIndex);
+	Plus();
+	ChangeIndexAbsolute(aIndex);
+	Plus();
+	ChangeIndexAbsolute(sIndex);
+	Plus();
+	ChangeIndexAbsolute(dIndex);
+	Plus();
+	ChangeIndexAbsolute(origin);
+	Plus();
+	// Subtract from counter
+	ChangeIndexAbsolute(counter);
+	Minus();
+	Loop();	// Origin is now 0, counter is now original value, and maybe one of w/a/s/d indexes are 0?
 
 	ChangeIndexAbsolute(origin);
 }
