@@ -360,7 +360,7 @@ void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, 
 
 		// This gets us back to the same position as if we didn't branch so that our "absolute" functions still work
 		ChangeIndexAbsolute(wIndex);
-		Right;
+		Right();
 	Loop();
 
 	ChangeIndexAbsolute(aIndex);
@@ -374,7 +374,7 @@ void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, 
 
 		// This gets us back to the same position as if we didn't branch so that our "absolute" functions still work
 		ChangeIndexAbsolute(wIndex);
-		Right;
+		Right();
 	Loop();
 
 	ChangeIndexAbsolute(sIndex);
@@ -388,7 +388,7 @@ void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, 
 
 		// This gets us back to the same position as if we didn't branch so that our "absolute" functions still work
 		ChangeIndexAbsolute(wIndex);
-		Right;
+		Right();
 	Loop();
 
 	ChangeIndexAbsolute(aIndex);
@@ -402,7 +402,7 @@ void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, 
 
 		// This gets us back to the same position as if we didn't branch so that our "absolute" functions still work
 		ChangeIndexAbsolute(wIndex);
-		Right;
+		Right();
 	Loop();
 
 	ChangeIndexAbsolute(counter);
