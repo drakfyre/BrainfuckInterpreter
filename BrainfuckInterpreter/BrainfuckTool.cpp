@@ -240,11 +240,14 @@ void BrainfuckTool::CopyToIndex(int index)
 
 void BrainfuckTool::Not()
 {
-	// No matter what we drop in, put a 1 next door
+	// No matter what value in the current data slot, put a 1 next door
 	Right();
 	Plus();
 
+	// Go back to check our original number
 	Left();
+
+	// This checks our original number
 	Branch();
 		// We're not zero if we're here
 		Branch();
@@ -256,9 +259,12 @@ void BrainfuckTool::Not()
 		Left();  // back to origin
 	Loop();
 
+	// Go right to check our neighbor
 	Right();
+
+	// This checks our neighbor, which would be a 1 if our original number was a 0
 	Branch();
-		// 0 was dropped in if we're here
+		// Our original number was 0 if we're here
 		Left();
 		Plus();		// Make our 0 into a 1
 		Right();
