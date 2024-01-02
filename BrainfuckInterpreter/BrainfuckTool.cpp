@@ -316,10 +316,10 @@ void BrainfuckTool::NonDestructiveNot()
 
 	// This checks our original number
 	Branch();
-	// We're not zero if we're here
-	Right();
-	Minus(); // 0 next door, so we skip the 0 logic ahead
-	Left();  // back to origin
+		// We're not zero if we're here
+		Right();
+		Minus(); // 0 next door
+		Left();  // back to origin
 	Loop();
 }
 
