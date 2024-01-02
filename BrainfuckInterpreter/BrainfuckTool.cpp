@@ -232,10 +232,42 @@ void BrainfuckTool::CopyToOffset(int offset)
 	ChangeIndexAbsolute(origin);
 }
 
+void BrainfuckTool::SubtractFromOffset(int offset)
+{
+	int origin = bfvm.dataIndex;
+
+	// First: Move origin to our counter temporary variable
+	int counter = NewTempVariable();
+	ChangeIndexAbsolute(origin);
+	MoveToIndex(counter);
+
+	Branch();						// If current value is 0 we end up at associated loop; we'd be done in that case anyway so that's perfect
+	ChangeIndexAbsolute(origin);	// We change index to our origin (which now contains 0)
+	Plus();							// We add 1 to our origin
+	ChangeIndexRelative(offset);	// We change index to our destination
+	Minus();						// We subtract 1 from our destination
+	ChangeIndexAbsolute(counter);	// We change index to our counter
+	Minus();						// Subtract 1 from our counter
+	Loop();							// Loop till counter is 0
+	ChangeIndexAbsolute(origin);
+}
+
 void BrainfuckTool::CopyToIndex(int index)
 {
 	int offset = index - bfvm.dataIndex;
 	CopyToOffset(offset);
+}
+
+void BrainfuckTool::AddToIndex(int index)
+{
+	CopyToIndex(index);
+}
+
+
+void BrainfuckTool::SubtractFromIndex(int index)
+{
+	int offset = index - bfvm.dataIndex;
+	SubtractFromOffset(offset);
 }
 
 void BrainfuckTool::Not()
@@ -273,7 +305,25 @@ void BrainfuckTool::Not()
 	Left();
 }
 
-void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, int playerPositionIndex)
+void BrainfuckTool::NonDestructiveNot()
+{
+	// No matter what value in the current data slot, put a 1 next door
+	Right();
+	Plus();
+
+	// Go back to check our original number
+	Left();
+
+	// This checks our original number
+	Branch();
+	// We're not zero if we're here
+	Right();
+	Minus(); // 0 next door, so we skip the 0 logic ahead
+	Left();  // back to origin
+	Loop();
+}
+
+void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, int playerPositionIndex, int widthIndex)
 {
 	// Current index is the key pressed
 
@@ -302,27 +352,39 @@ void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, 
 	ChangeIndexAbsolute(wIndex);
 	Branch();
 		// w was entered
-		
+		ChangeIndexAbsolute(widthIndex);
+		SubtractFromIndex(playerPositionIndex);
+		Right();
 	Loop();
-	Not();
+	NonDestructiveNot();
+	Right();
 	Branch();
 		ChangeIndexAbsolute(aIndex);
 		Branch();
-		// a was entered
+			// a was entered
+			ChangeIndexAbsolute(playerPositionIndex);
+			Minus();
+			Right();
 		Loop();
-		Not();
+		NonDestructiveNot();
+		Right();
 		Branch();
 			ChangeIndexAbsolute(sIndex);
 			Branch();
-			// s was entered
+				// s was entered
+				ChangeIndexAbsolute(widthIndex);
+				AddToIndex(playerPositionIndex);
+				Right();
 			Loop();
-			Not();
+			NonDestructiveNot();
+			Right();
 			Branch();
 				ChangeIndexAbsolute(dIndex);
 				Branch();
 				// d was entered
 				Loop();
-				Not();
+				NonDestructiveNot();
+				Right();
 				Branch();
 					// Invalid entry
 				Loop();
@@ -330,5 +392,5 @@ void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, 
 		Loop();
 	Loop();
 
-	// Also, need to remeber to restore all the values before exiting!
+	ChangeIndexAbsolute(origin);
 }

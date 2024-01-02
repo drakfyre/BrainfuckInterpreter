@@ -25,9 +25,13 @@ public:
 	void ChangeIndexAbsolute(int index);
 	void ChangeIndexToNextZero();
 	void CopyToOffset(int offset);
+	void SubtractFromOffset(int offset);
 	void CopyToIndex(int index);
+	void AddToIndex(int index);
+	void SubtractFromIndex(int index);
 	void Not();
-	void PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, int playerPositionIndex);
+	void NonDestructiveNot();
+	void PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, int playerPositionIndex, int widthIndex);
 	void MoveToOffset(int offset);
 	void MoveToIndex(int index); // might have a problem?
 	void OutString(int length);

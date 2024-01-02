@@ -30,10 +30,6 @@ int main()
     constexpr int kLevelHeight = 15;
 
     BrainfuckTool tool;
-    tool.Not();
-    tool.Not();
-    tool.Not();
-    tool.Not();
     int wIndex = tool.NewVariable('w');
     int aIndex = tool.NewVariable('a');
     int sIndex = tool.NewVariable('s');
@@ -46,12 +42,12 @@ int main()
     int gameMapIndex = tool.NewArray(levelArray, kLevelWidth * kLevelHeight, kLevelWidth);
 
     tool.ChangeIndexAbsolute(gameRunning);
-    tool.Branch();
+    tool.Branch(); // Main branch now stops execution because it thinks it needs to resolve to the end.  Maybe make a force no resolve?
     tool.ChangeIndexAbsolute(gameMapIndex);
     tool.OutString(kLevelWidth * kLevelHeight + kLevelHeight); // Level width*height + 1 per height (because of the newlines we added in NewArray)
     tool.ChangeIndexAbsolute(inputCharacterIndex);
     tool.In();
-    tool.PlayerLogic(wIndex,aIndex,sIndex,dIndex,playerPositionIndex);
+    tool.PlayerLogic(wIndex,aIndex,sIndex,dIndex,playerPositionIndex,widthIndex);
     tool.ChangeIndexAbsolute(gameRunning);
     tool.Loop();
 
