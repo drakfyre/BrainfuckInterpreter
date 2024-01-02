@@ -371,7 +371,7 @@ void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, 
 		Minus();
 		ChangeIndexAbsolute(origin);
 		Minus();
-	Loop();	// Origin is now 0, counter is now original value, and maybe one of w/a/s/d indexes are 0?
+	Loop();	// Origin is now 0, and maybe one of w/a/s/d indexes are 0?
 
 	ChangeIndexAbsolute(wIndexTemp);
 	Not();
