@@ -351,10 +351,11 @@ void BrainfuckTool::NonDestructiveNot()
 		Loop();
 	Loop();
 
-	// Now origin has 0, right number has either 0 or original number + 1
+	// Now origin has 0, right number has either 1 or original number + 1
 
 	Right();
 	Branch();
+		Minus();
 		Branch();
 			Minus();
 			Left();
@@ -362,8 +363,6 @@ void BrainfuckTool::NonDestructiveNot()
 			Right();
 		Loop();
 	Loop();
-	Minus();
-
 	Left();
 
 }
