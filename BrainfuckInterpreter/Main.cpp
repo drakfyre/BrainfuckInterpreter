@@ -41,6 +41,7 @@ int main()
     int inputCharacterIndex = tool.NewVariable(0);
     int widthIndex = tool.NewVariable(kLevelWidth);
     int playerPositionIndex = tool.NewVariable(1 + kLevelWidth * 1); // Position (1,1)
+    int playerPositionIndexTemp = tool.NewVariable(0); // Position (1,1)
     int hasKeyIndex = tool.NewVariable(0);
     int gameRunning = tool.NewVariable(1);
     int gameMapIndex = tool.NewArray(levelArray, kLevelWidth * kLevelHeight, kLevelWidth);
@@ -51,7 +52,7 @@ int main()
     tool.OutString(kLevelWidth * kLevelHeight + kLevelHeight); // Level width*height + 1 per height (because of the newlines we added in NewArray)
     tool.ChangeIndexAbsolute(inputCharacterIndex);
     tool.In();
-    tool.PlayerLogic(wIndex,aIndex,sIndex,dIndex,wIndexTemp,aIndexTemp,sIndexTemp,dIndexTemp,playerPositionIndex,widthIndex);
+    tool.PlayerLogic(wIndex, aIndex, sIndex, dIndex, wIndexTemp, aIndexTemp, sIndexTemp, dIndexTemp, playerPositionIndex, playerPositionIndexTemp, gameMapIndex, widthIndex);
     tool.ChangeIndexAbsolute(gameRunning);
     tool.Loop();
 

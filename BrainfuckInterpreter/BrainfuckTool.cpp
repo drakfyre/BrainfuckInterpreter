@@ -243,7 +243,7 @@ void BrainfuckTool::CopyToOffset(int offset)
 	ChangeIndexAbsolute(origin);
 	MoveToIndex(counter);
 
-	Right();
+	ChangeIndexAbsolute(counter);
 
 	Branch();						// If current value is 0 we end up at associated loop; we'd be done in that case anyway so that's perfect
 	ChangeIndexAbsolute(origin);	// We change index to our origin (which now contains 0)
@@ -339,7 +339,7 @@ void BrainfuckTool::NonDestructiveNot()
 {
 }
 
-void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, int wIndexTemp, int aIndexTemp, int sIndexTemp, int dIndexTemp, int playerPositionIndex, int widthIndex)
+void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, int wIndexTemp, int aIndexTemp, int sIndexTemp, int dIndexTemp, int playerPositionIndex, int playerPositionIndexTemp, int levelIndex, int widthIndex)
 {
 	int origin = virtualDataIndex;
 
