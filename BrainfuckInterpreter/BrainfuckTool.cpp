@@ -104,7 +104,7 @@ void BrainfuckTool::ChangeIndexAbsolute(int index)
 void BrainfuckTool::ChangeIndexToNextZero()
 {
 	Branch();	// Ends if we're currently at a 0
-	Right();	// Increase current index
+		Right();	// Increase current index
 	Loop();		// If current index is 0, ends
 }
 
@@ -212,10 +212,10 @@ void BrainfuckTool::Loop(bool resolveLoops)
 void BrainfuckTool::MoveToOffset(int offset)
 {
 	Branch();						// If current value is 0 we end up at associated loop; we'd be done in that case anyway so that's perfect
-	ChangeIndexRelative(offset);	// We move to our destination
-	Plus();							// We add 1 to our destination
-	ChangeIndexRelative(-offset);	// We move back to our source
-	Minus();						// We subtract 1 from our source
+		ChangeIndexRelative(offset);	// We move to our destination
+		Plus();							// We add 1 to our destination
+		ChangeIndexRelative(-offset);	// We move back to our source
+		Minus();						// We subtract 1 from our source
 	Loop();							// If our source is 0, stop looping
 }
 
@@ -246,13 +246,13 @@ void BrainfuckTool::CopyToOffset(int offset)
 	ChangeIndexAbsolute(counter);
 
 	Branch();						// If current value is 0 we end up at associated loop; we'd be done in that case anyway so that's perfect
-	ChangeIndexAbsolute(origin);	// We change index to our origin (which now contains 0)
-	Plus();							// We add 1 to our origin
-	ChangeIndexRelative(offset);	// We change index to our destination
-	Plus();							// We add 1 our destination
-	ChangeIndexAbsolute(counter);	// We change index to our counter
-	Minus();						// Subtract 1 from our counter
-	Loop();							// Loop till counter is 0
+		ChangeIndexAbsolute(origin);	// We change index to our origin (which now contains 0)
+		Plus();							// We add 1 to our origin
+		ChangeIndexRelative(offset);	// We change index to our destination
+		Plus();							// We add 1 our destination
+		ChangeIndexAbsolute(counter);	// We change index to our counter
+		Minus();						// Subtract 1 from our counter
+		Loop();							// Loop till counter is 0
 	ChangeIndexAbsolute(origin);
 }
 
@@ -267,13 +267,13 @@ void BrainfuckTool::SubtractFromOffset(int offset)
 	MoveToIndex(counter);
 
 	Branch();						// If current value is 0 we end up at associated loop; we'd be done in that case anyway so that's perfect
-	ChangeIndexAbsolute(origin);	// We change index to our origin (which now contains 0)
-	Plus();							// We add 1 to our origin
-	ChangeIndexRelative(offset);	// We change index to our destination
-	Minus();						// We subtract 1 from our destination
-	ChangeIndexAbsolute(counter);	// We change index to our counter
-	Minus();						// Subtract 1 from our counter
-	Loop();							// Loop till counter is 0
+		ChangeIndexAbsolute(origin);	// We change index to our origin (which now contains 0)
+		Plus();							// We add 1 to our origin
+		ChangeIndexRelative(offset);	// We change index to our destination
+		Minus();						// We subtract 1 from our destination
+		ChangeIndexAbsolute(counter);	// We change index to our counter
+		Minus();						// Subtract 1 from our counter
+		Loop();							// Loop till counter is 0
 	ChangeIndexAbsolute(origin);
 }
 
@@ -360,17 +360,17 @@ void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, 
 	ChangeIndexAbsolute(origin);
 
 	Branch();
-	// Subtract from all till origin is 0
-	ChangeIndexAbsolute(wIndexTemp);
-	Minus();
-	ChangeIndexAbsolute(aIndexTemp);
-	Minus();
-	ChangeIndexAbsolute(sIndexTemp);
-	Minus();
-	ChangeIndexAbsolute(dIndexTemp);
-	Minus();
-	ChangeIndexAbsolute(origin);
-	Minus();
+		// Subtract from all till origin is 0
+		ChangeIndexAbsolute(wIndexTemp);
+		Minus();
+		ChangeIndexAbsolute(aIndexTemp);
+		Minus();
+		ChangeIndexAbsolute(sIndexTemp);
+		Minus();
+		ChangeIndexAbsolute(dIndexTemp);
+		Minus();
+		ChangeIndexAbsolute(origin);
+		Minus();
 	Loop();	// Origin is now 0, counter is now original value, and maybe one of w/a/s/d indexes are 0?
 
 	ChangeIndexAbsolute(wIndexTemp);
