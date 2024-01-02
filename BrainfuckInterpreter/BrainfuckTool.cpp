@@ -334,11 +334,11 @@ void BrainfuckTool::NonDestructiveNot()
 	// ^ That didn't go great, there's not a lot of great places to stuff things... still might be an option later
 
 	// No matter what value in the current data slot, put a 1 next door
-	//Right();
-	//Plus();
+	Right();
+	Plus();
 
 	// Go back to check our original number
-	//Left();
+	Left();
 
 	// This checks our original number
 	Branch();
@@ -351,7 +351,7 @@ void BrainfuckTool::NonDestructiveNot()
 		Loop();
 	Loop();
 
-	// Now origin has 0, right number has either 0 or original number
+	// Now origin has 0, right number has either 0 or original number + 1
 
 	Right();
 	Branch();
@@ -362,9 +362,10 @@ void BrainfuckTool::NonDestructiveNot()
 			Right();
 		Loop();
 	Loop();
-	Plus();
+	Minus();
 
 	Left();
+
 }
 
 void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, int playerPositionIndex, int widthIndex)
