@@ -352,6 +352,8 @@ void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, 
 	CopyToIndex(sIndexTemp);
 	ChangeIndexAbsolute(dIndex);
 	CopyToIndex(dIndexTemp);
+	ChangeIndexAbsolute(playerPositionIndex);
+	CopyToIndex(playerPositionIndexTemp);
 
 	// Current index is the key pressed
 	ChangeIndexAbsolute(origin);
@@ -426,6 +428,12 @@ void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, 
 	SetZero();
 	ChangeIndexAbsolute(dIndexTemp);
 	SetZero();
+	ChangeIndexAbsolute(playerPositionIndexTemp);
+	SetZero();
+
+	// Move the @ from the old position to the new position
+	ChangeIndexAbsolute(levelIndex);
+	ChangeIndexRelative(playerPositionIndex); // This isn't what I want here.  I need to change based on the value AT playerPositionIndex, which needs a new function I think
 
 	ChangeIndexAbsolute(origin);
 }
