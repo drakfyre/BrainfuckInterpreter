@@ -379,7 +379,7 @@ void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, 
 
 	Branch();
 	// Add to counter
-	ChangeIndexAbsolute(counter);	// ChangeIndexAbsolute breaks inside branches because we don't evaluate up to this point...
+	ChangeIndexAbsolute(counter);
 	Plus();
 	// Subtract from all till origin is 0
 	ChangeIndexAbsolute(wIndex);
