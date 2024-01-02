@@ -256,6 +256,7 @@ void BrainfuckTool::CopyToOffset(int offset)
 	ChangeIndexAbsolute(origin);
 }
 
+// I suspect there's a bug here, we hang on w currently
 void BrainfuckTool::SubtractFromOffset(int offset)
 {
 	int origin = virtualDataIndex;
