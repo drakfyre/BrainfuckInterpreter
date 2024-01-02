@@ -329,42 +329,38 @@ void BrainfuckTool::Not()
 
 void BrainfuckTool::NonDestructiveNot()
 {
-	// Currently this function causes undefined behaviour because the branch leaves us in a different position in some cases
-	// Going to wipe it all and make it more like the above Not loop but add restoration of the original values, might be easier
-	// ^ That didn't go great, there's not a lot of great places to stuff things... still might be an option later
+	// This time I'm just going to use Not() but move the value to the temp variable first and then reverse the left/right stuff
+	MoveToOffset(1);
 
 	// No matter what value in the current data slot, put a 1 next door
-	Right();
 	Plus();
 
 	// Go back to check our original number
-	Left();
+	Right();
 
 	// This checks our original number
 	Branch();
 		// We're not zero if we're here
 		Branch();
 			Minus();
-			Right();
-			Plus();
-			Left();
 		Loop();
+		// Now we're 0
+		Left();
+		Minus(); // 0 next door, so we skip the 0 logic ahead
+		Right();  // back to origin
 	Loop();
 
-	// Now origin has 0, right number has either 1 or original number + 1
-
-	Right();
-	Branch();
-		Minus();
-		Branch();
-			Minus();
-			Left();
-			Plus();
-			Right();
-		Loop();
-	Loop();
+	// Go right to check our neighbor
 	Left();
 
+	// This checks our neighbor, which would be a 1 if our original number was a 0
+	Branch();
+		// Our original number was 0 if we're here
+		Right();
+		Plus();		// Make our 0 into a 1
+		Left();
+		Minus();	// Reset our neighbor
+	Loop();
 }
 
 void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, int playerPositionIndex, int widthIndex)
