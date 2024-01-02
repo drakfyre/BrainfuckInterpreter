@@ -47,7 +47,7 @@ int main()
     int gameMapIndex = tool.NewArray(levelArray, kLevelWidth * kLevelHeight, kLevelWidth);
 
     tool.ChangeIndexAbsolute(gameRunning);
-    tool.Branch(false); // Main branch now stops execution because it thinks it needs to resolve to the end.  Maybe make a force no resolve?
+    tool.Branch(false); // False forces immediate resolve of this branch (Can only be done with branches that will not be skipped 1st time or we'll crash)
     tool.ChangeIndexAbsolute(gameMapIndex);
     tool.OutString(kLevelWidth * kLevelHeight + kLevelHeight); // Level width*height + 1 per height (because of the newlines we added in NewArray)
     tool.ChangeIndexAbsolute(inputCharacterIndex);
