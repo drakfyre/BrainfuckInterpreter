@@ -359,7 +359,7 @@ void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, 
 		Right();
 	Loop();
 
-	ChangeIndexAbsolute(aIndex);
+	ChangeIndexAbsolute(aIndex); // I think this is undefined behaviour after a branch when we move differently in the branch... gotta fix
 	NonDestructiveNot();
 	Right();
 	Branch();
