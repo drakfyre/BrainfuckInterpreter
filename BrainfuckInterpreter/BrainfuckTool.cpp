@@ -4,9 +4,23 @@
 // This currently assumes that the value we are setting is 0
 void BrainfuckTool::SetValue(int value)
 {
+	AddValue(value);
+}
+
+void BrainfuckTool::AddValue(int value)
+{
 	for (int i = 0; i < value; i++)
 	{
 		BrainfuckTool::Plus();
+	}
+}
+
+
+void BrainfuckTool::SubtractValue(int value)
+{
+	for (int i = 0; i < value; i++)
+	{
+		BrainfuckTool::Minus();
 	}
 }
 
@@ -253,7 +267,7 @@ int BrainfuckTool::NewTempVariable()
 }
 
 // Copies value from current memory position to offset from current memory positon, assuming that the destination contains 0
-// (CURRENTLY UNTESTED)
+// (Lightly tested)
 void BrainfuckTool::CopyToOffset(int offset)
 {
 	int origin = virtualDataIndex;
@@ -429,7 +443,7 @@ void BrainfuckTool::ChangeIndexRelativeToValueAtIndex(int index)
 		NewTempVariable();	// Temp track
 		Minus();			// Changes 1 to 0 in most cases, till we get to the end where it changes 0 to 255 or something, who cares, we'll kill it in the next loop
 		Branch();
-			Minus();		// Clear the final 1 so we are clean and can drop out of this creative mess
+			Minus();		// Clear the final 255 so we are clean and can drop out of this creative mess
 		Loop();
 	Loop();
 
@@ -527,17 +541,17 @@ void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, 
 	SetZero();
 	ChangeIndexAbsolute(dIndexTemp);
 	SetZero();
-	ChangeIndexAbsolute(playerPositionIndexTemp);
-	SetZero();
 
 	// Move the @ from the old position to the new position
 	ChangeIndexAbsolute(levelIndex);
-	ChangeIndexRelativeToValueAtIndex(playerPositionIndex); // This isn't what I want here.  I need to change based on the value AT playerPositionIndex, which needs a new function I think
-	//MoveToIndex()
+	ChangeIndexRelativeToValueAtIndex(playerPositionIndexTemp);
+	SubtractValue(32); // Did you know that @ - 32 = Space?
 
-	// I'm now so close, I just need to now do the logic where the temp position stores the old address
-	// One more heads up: MoveToIndex probably still expects 0 in the destination so you may have to make a better version of that function
-	// Or you could always set up the game map array with nulls?  Wait that won't work because they don't print.  Nevermind.
+	ChangeIndexAbsolute(levelIndex);
+	ChangeIndexRelativeToValueAtIndex(playerPositionIndex);
+	AddValue(32); // Did you know that Space + 32 = @?  You should!
 
+	ChangeIndexAbsolute(playerPositionIndexTemp);
+	SetZero();
 	ChangeIndexAbsolute(origin);
 }
