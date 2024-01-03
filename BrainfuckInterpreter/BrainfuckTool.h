@@ -23,7 +23,7 @@ public:
 	int NewArray(char inputArray[], int arrayLength, int arrayWidth);
 	void ChangeIndexRelative(int offset);
 	void ChangeIndexAbsolute(int index);
-	void ChangeIndexRelativeToValueAtIndex(int index);
+	void ChangeIndexRelativeToValueAtIndex(int index, int notTempIndex);
 	void ChangeIndexToNextZero();
 	void ChangeIndexToNextTempZero();
 	void ChangeIndexToPreviousTempZero();
@@ -34,6 +34,7 @@ public:
 	void SubtractFromIndex(int index);
 	void SetZero();
 	void Not();
+	void NotInMyBackyard(int tempVariableIndex);
 	void PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, int wIndexTemp, int aIndexTemp, int sIndexTemp, int dIndexTemp, int playerPositionIndex, int playerPositionIndexTemp, int levelIndex, int widthIndex);
 	void MoveToOffset(int offset);
 	void MoveToIndex(int index); // might have a problem?

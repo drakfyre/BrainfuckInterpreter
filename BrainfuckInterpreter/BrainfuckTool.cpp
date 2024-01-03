@@ -221,6 +221,7 @@ void BrainfuckTool::Loop(bool resolveLoops)
 			executionQueue--;
 			bfvm.Step(resolveLoops);
 		}
+		virtualDataIndex = bfvm.dataIndex; // HACK: This is likely a massive hack; let's see how it goes
 	}
 }
 
@@ -355,10 +356,47 @@ void BrainfuckTool::Not()
 	Left();
 }
 
+void BrainfuckTool::NotInMyBackyard(int tempVariableIndex)
+{
+	int origin = virtualDataIndex;
+
+	// No matter what value in the current data slot, put a 1 next door
+	ChangeIndexAbsolute(tempVariableIndex);
+	Plus();
+
+	// Go back to check our original number
+	ChangeIndexAbsolute(origin);
+
+	// This checks our original number
+	Branch();
+		// We're not zero if we're here
+		Branch();
+			Minus();
+		Loop();
+		// Now we're 0
+		ChangeIndexAbsolute(tempVariableIndex);
+		Minus(); // 0 next door, so we skip the 0 logic ahead
+		ChangeIndexAbsolute(origin);  // back to origin
+	Loop();
+
+	// Go right to check our neighbor
+	ChangeIndexAbsolute(tempVariableIndex);
+
+	// This checks our neighbor, which would be a 1 if our original number was a 0
+	Branch();
+		// Our original number was 0 if we're here
+		ChangeIndexAbsolute(origin);
+		Plus();		// Make our 0 into a 1
+		ChangeIndexAbsolute(tempVariableIndex);
+		Minus();	// Reset our neighbor
+	Loop();
+	ChangeIndexAbsolute(origin);
+}
+
 // I love this function, but remember, none of this will work till we add the temp variable spaces inside our level array, it depends on them
 // Changing our level array to have these bubbles in it will require adjusting a few things including how we draw our levels (which is why I didn't do it before)
 // I think this is a REAL legit use of the odd-temp-variable system though and I think these changes would be improvements overall
-void BrainfuckTool::ChangeIndexRelativeToValueAtIndex(int index)
+void BrainfuckTool::ChangeIndexRelativeToValueAtIndex(int index, int notTempIndex)
 {
 	int origin = virtualDataIndex;
 	int tempIndex = NewTempVariable();
@@ -366,6 +404,7 @@ void BrainfuckTool::ChangeIndexRelativeToValueAtIndex(int index)
 	ChangeIndexAbsolute(index);
 	CopyToIndex(tempIndex);
 	ChangeIndexAbsolute(tempIndex);
+	Minus();						// Classic off-by one! (Maybe?)
 	Branch(false);
 		// Problem: At the end of this loop we need to decrese a variable from a known position, but we can't get back to our new position after that
 		// Idea: We tab over into the temp variables between here and the destination, adding 1 to them, and then moving right through all of them at the end
@@ -381,13 +420,15 @@ void BrainfuckTool::ChangeIndexRelativeToValueAtIndex(int index)
 		Minus();							// Finally we get to reduce our counter by 1!
 	Loop();
 
+	Plus();		// This is because I blew away tempIndex even though it's part of my breadcrumb trail
+
 	ChangeIndexAbsolute(origin);
 
 	// At this point we've got a pathway of ones we can follow to find where our @ symbol is (give or take 1? programmer's curse)
 	// Which is where we want to end on, so we should pick up our 1 debris as we go
 	Branch();
 		NewTempVariable();	// Temp track
-		Not();				// Changes 1 to 0 in most cases, till we get to the end where it changes 0 to 1
+		NotInMyBackyard(notTempIndex);				// Changes 1 to 0 in most cases, till we get to the end where it changes 0 to 1
 		Branch();
 			Minus();		// Clear the final 1 so we are clean and can drop out of this creative mess
 		Loop();
@@ -492,7 +533,14 @@ void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, 
 
 	// Move the @ from the old position to the new position
 	ChangeIndexAbsolute(levelIndex);
-	ChangeIndexRelativeToValueAtIndex(playerPositionIndex); // This isn't what I want here.  I need to change based on the value AT playerPositionIndex, which needs a new function I think
+	ChangeIndexRelativeToValueAtIndex(playerPositionIndex, playerPositionIndexTemp); // This isn't what I want here.  I need to change based on the value AT playerPositionIndex, which needs a new function I think
+	//MoveToIndex()
+
+	// Okay, here's where we're at: I "fixed" an off by one earlier that is wrong; I forgot the player should be one step right of where they started, so I
+	// faked myself out on that one.  I need to "unfix" it now but I don't feel like looking for it
+	// Also I'm now so close, I just need to now do the logic where the temp position stores the old address (DON'T USE THIS FOR THE NotInMyBackyard like it is now!)
+	// One more heads up: MoveToIndex probably still expects 0 in the destination so you may have to make a better version of that function
+	// Or you could always set up the game map array with nulls?  Wait that won't work because they don't print.  Nevermind.
 
 	ChangeIndexAbsolute(origin);
 }
