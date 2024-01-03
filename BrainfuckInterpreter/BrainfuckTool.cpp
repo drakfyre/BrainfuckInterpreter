@@ -336,8 +336,19 @@ void BrainfuckTool::Not()
 	Left();
 }
 
-void BrainfuckTool::NonDestructiveNot()
+void BrainfuckTool::ChangeIndexRelativeToValueAtIndex(int index, int tempIndex)
 {
+	int origin = virtualDataIndex;
+	CopyToIndex(tempIndex);
+	ChangeIndexAbsolute(tempIndex);
+	Branch();
+		// Problem: At the end of this loop we need to decrese a variable from a known position, but we can't get back to our new position after that
+		// Idea: We tab over into the temp variables between here and the destination, adding 1 to them, and then moving right through all of them at the end
+		// To explain more: if each loop we go out by 2 till we reach a 0 in a temp variable, then we add 1 to that temp variable and loop again, till we get where we want
+		ChangeIndexAbsolute(origin);
+		ChangeIndexAbsolute(tempIndex);
+		Minus();
+	Loop();
 }
 
 void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, int wIndexTemp, int aIndexTemp, int sIndexTemp, int dIndexTemp, int playerPositionIndex, int playerPositionIndexTemp, int levelIndex, int widthIndex)
@@ -434,7 +445,7 @@ void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, 
 
 	// Move the @ from the old position to the new position
 	ChangeIndexAbsolute(levelIndex);
-	ChangeIndexRelative(playerPositionIndex); // This isn't what I want here.  I need to change based on the value AT playerPositionIndex, which needs a new function I think
+	ChangeIndexRelativeToValueAtIndex(playerPositionIndex, playerPositionIndexTemp); // This isn't what I want here.  I need to change based on the value AT playerPositionIndex, which needs a new function I think
 
 	ChangeIndexAbsolute(origin);
 }
