@@ -23,8 +23,10 @@ public:
 	int NewArray(char inputArray[], int arrayLength, int arrayWidth);
 	void ChangeIndexRelative(int offset);
 	void ChangeIndexAbsolute(int index);
-	void ChangeIndexRelativeToValueAtIndex(int index, int tempIndex);
+	void ChangeIndexRelativeToValueAtIndex(int index);
 	void ChangeIndexToNextZero();
+	void ChangeIndexToNextTempZero();
+	void ChangeIndexToPreviousTempZero();
 	void CopyToOffset(int offset);
 	void SubtractFromOffset(int offset);
 	void CopyToIndex(int index);

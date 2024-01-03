@@ -108,6 +108,22 @@ void BrainfuckTool::ChangeIndexToNextZero()
 	Loop();		// If current index is 0, ends
 }
 
+void BrainfuckTool::ChangeIndexToNextTempZero()
+{
+	Branch();	// Ends if we're currently at a 0
+		Right();	// Increase current index
+		Right();	// Increase current index
+	Loop();		// If current index is 0, ends
+}
+
+void BrainfuckTool::ChangeIndexToPreviousTempZero()
+{
+	Branch();	// Ends if we're currently at a 0
+		Left();	// Decrease current index
+		Left();	// Decrease current index
+	Loop();		// If current index is 0, ends
+}
+
 void BrainfuckTool::Plus()
 {
 	bfvm.brainfuckString += '+';
@@ -336,18 +352,41 @@ void BrainfuckTool::Not()
 	Left();
 }
 
-void BrainfuckTool::ChangeIndexRelativeToValueAtIndex(int index, int tempIndex)
+void BrainfuckTool::ChangeIndexRelativeToValueAtIndex(int index)
 {
 	int origin = virtualDataIndex;
+	int tempIndex = NewTempVariable();
+
 	CopyToIndex(tempIndex);
 	ChangeIndexAbsolute(tempIndex);
 	Branch();
 		// Problem: At the end of this loop we need to decrese a variable from a known position, but we can't get back to our new position after that
 		// Idea: We tab over into the temp variables between here and the destination, adding 1 to them, and then moving right through all of them at the end
 		// To explain more: if each loop we go out by 2 till we reach a 0 in a temp variable, then we add 1 to that temp variable and loop again, till we get where we want
+		// Bonus problem: I can't "ChangeIndexAbsolute" from unknown/non-absolute coordinates, which is why I scan BACK to get to the origin instead of just "absoluting" there
 		ChangeIndexAbsolute(origin);
-		ChangeIndexAbsolute(tempIndex);
-		Minus();
+		NewTempVariable();					// Sets us on the "temp track"; we don't care about the return value
+		ChangeIndexToNextTempZero();		// Brings us to the next 0 on the "temp track"
+		Plus();								// Add one on the temp track at this position, so it's not a zero next time (We'll have to clean this up later too...)
+		ChangeIndexToPreviousTempZero();	// Fly back to our last untarnished 0 which should be 1 left of origin
+		Plus();								// <- Should be back at origin now?  Hopefully?
+		ChangeIndexAbsolute(tempIndex);		// This now works because it's jumping from origin every time
+		Minus();							// Finally we get to reduce our counter by 1!
+	Loop();
+
+	ChangeIndexAbsolute(origin);
+
+	// At this point we've got a pathway of ones we can follow to find where our @ symbol is (give or take 1? programmer's curse)
+	// Which is where we want to end on, so we should pick up our 1 debris as we go
+	Branch();
+		NewTempVariable();	// Temp track
+		Not();				// Changes 1 to 0 in most cases, till we get to the end where it changes 0 to 1
+		Branch();
+			// This means we got to a 0 (now a 1 via Not), which means we're very close to our @ symbol, I think a left from here will get where we want to be
+			// (But it could be right, we'll see in testing)
+			Left();
+			Minus();		// Clear the final 1 so we are clean and can drop out of this creative mess
+		Loop();
 	Loop();
 }
 
@@ -445,7 +484,7 @@ void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, 
 
 	// Move the @ from the old position to the new position
 	ChangeIndexAbsolute(levelIndex);
-	ChangeIndexRelativeToValueAtIndex(playerPositionIndex, playerPositionIndexTemp); // This isn't what I want here.  I need to change based on the value AT playerPositionIndex, which needs a new function I think
+	ChangeIndexRelativeToValueAtIndex(playerPositionIndex); // This isn't what I want here.  I need to change based on the value AT playerPositionIndex, which needs a new function I think
 
 	ChangeIndexAbsolute(origin);
 }
