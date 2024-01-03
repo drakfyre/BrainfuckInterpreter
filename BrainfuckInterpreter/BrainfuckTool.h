@@ -23,7 +23,7 @@ public:
 	int NewArray(char inputArray[], int arrayLength, int arrayWidth);
 	void ChangeIndexRelative(int offset);
 	void ChangeIndexAbsolute(int index);
-	void ChangeIndexRelativeToValueAtIndex(int index, int notTempIndex);
+	void ChangeIndexRelativeToValueAtIndex(int index);
 	void ChangeIndexToNextZero();
 	void ChangeIndexToNextTempZero();
 	void ChangeIndexToPreviousTempZero();
