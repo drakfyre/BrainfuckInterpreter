@@ -418,7 +418,7 @@ void BrainfuckTool::ChangeIndexRelativeToValueAtIndex(int index)
 	ChangeIndexAbsolute(index);
 	CopyToIndex(tempIndex);
 	ChangeIndexAbsolute(tempIndex);
-	Branch(false);
+	Branch();
 		// Problem: At the end of this loop we need to decrese a variable from a known position, but we can't get back to our new position after that
 		// Idea: We tab over into the temp variables between here and the destination, adding 1 to them, and then moving right through all of them at the end
 		// To explain more: if each loop we go out by 2 till we reach a 0 in a temp variable, then we add 1 to that temp variable and loop again, till we get where we want
@@ -429,7 +429,8 @@ void BrainfuckTool::ChangeIndexRelativeToValueAtIndex(int index)
 		Plus();								// Add one on the temp track at this position, so it's not a zero next time (We'll have to clean this up later too...)
 		ChangeIndexToPreviousTempZero();	// Fly back to our last untarnished 0 which should be 1 left of origin
 		Right();							// <- Should be back at origin now?  Hopefully?
-		ChangeIndexAbsolute(tempIndex);		// This now works because it's jumping from origin every time
+		Right();
+		//ChangeIndexAbsolute(tempIndex);		// This now works because it's jumping from origin every time
 		Minus();							// Finally we get to reduce our counter by 1!
 	Loop();
 
@@ -437,18 +438,23 @@ void BrainfuckTool::ChangeIndexRelativeToValueAtIndex(int index)
 
 	ChangeIndexAbsolute(origin);
 
+	NewTempVariable();	// Temp track
+
 	// At this point we've got a pathway of ones we can follow to find where our @ symbol is (give or take 1? programmer's curse)
 	// Which is where we want to end on, so we should pick up our 1 debris as we go
 	Branch();
-		NewTempVariable();	// Temp track
 		Minus();			// Changes 1 to 0 in most cases, till we get to the end where it changes 0 to 255 or something, who cares, we'll kill it in the next loop
 		Branch();
 			Minus();		// Clear the final 255 so we are clean and can drop out of this creative mess
 		Loop();
+		Right();
+		Right();
 	Loop();
 
 	// This means we got to a 0, which means we're very close to our @ symbol, I think a left from here will get where we want to be
 	// (But it could be right, we'll see in testing)
+	Left();
+	Left();
 	Left();
 }
 
