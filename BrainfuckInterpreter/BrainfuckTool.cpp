@@ -352,6 +352,9 @@ void BrainfuckTool::Not()
 	Left();
 }
 
+// I love this function, but remember, none of this will work till we add the temp variable spaces inside our level array, it depends on them
+// Changing our level array to have these bubbles in it will require adjusting a few things including how we draw our levels (which is why I didn't do it before)
+// I think this is a REAL legit use of the odd-temp-variable system though and I think these changes would be improvements overall
 void BrainfuckTool::ChangeIndexRelativeToValueAtIndex(int index)
 {
 	int origin = virtualDataIndex;
@@ -382,12 +385,13 @@ void BrainfuckTool::ChangeIndexRelativeToValueAtIndex(int index)
 		NewTempVariable();	// Temp track
 		Not();				// Changes 1 to 0 in most cases, till we get to the end where it changes 0 to 1
 		Branch();
-			// This means we got to a 0 (now a 1 via Not), which means we're very close to our @ symbol, I think a left from here will get where we want to be
-			// (But it could be right, we'll see in testing)
-			Left();
 			Minus();		// Clear the final 1 so we are clean and can drop out of this creative mess
 		Loop();
 	Loop();
+
+	// This means we got to a 0, which means we're very close to our @ symbol, I think a left from here will get where we want to be
+	// (But it could be right, we'll see in testing)
+	Left();
 }
 
 void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, int wIndexTemp, int aIndexTemp, int sIndexTemp, int dIndexTemp, int playerPositionIndex, int playerPositionIndexTemp, int levelIndex, int widthIndex)
