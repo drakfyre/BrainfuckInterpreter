@@ -27,6 +27,7 @@ int main()
         '+','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','+' };
 
     constexpr int kLevelWidth = 25;
+    constexpr int kLevelWidthPlusOne = kLevelWidth + 1;
     constexpr int kLevelHeight = 15;
 
     BrainfuckTool tool;
@@ -39,8 +40,8 @@ int main()
     int sIndexTemp = tool.NewVariable(0);
     int dIndexTemp = tool.NewVariable(0);
     int inputCharacterIndex = tool.NewVariable(0);
-    int widthIndex = tool.NewVariable(kLevelWidth);
-    int playerPositionIndex = tool.NewVariable(1 + kLevelWidth * 1); // Position (1,1)
+    int widthIndex = tool.NewVariable(kLevelWidthPlusOne);
+    int playerPositionIndex = tool.NewVariable(1 + kLevelWidthPlusOne * 1); // Position (1,1)
     int playerPositionIndexTemp = tool.NewVariable(0);
     int hasKeyIndex = tool.NewVariable(0);
     int gameRunning = tool.NewVariable(1);

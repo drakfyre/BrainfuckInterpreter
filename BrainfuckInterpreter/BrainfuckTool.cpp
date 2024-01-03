@@ -16,10 +16,12 @@ void BrainfuckTool::SetArray(char inputArray[], int arrayLength, int arrayWidth)
 	{
 		SetValue(inputArray[i]);
 		Right();
+		Right();
 
 		if (i % arrayWidth == arrayWidth - 1)
 		{
 			SetValue('\n');
+			Right();
 			Right();
 		}
 	}
@@ -181,6 +183,7 @@ void BrainfuckTool::OutString(int length)
 	while (length > 0)
 	{
 		Out();
+		Right();
 		Right();
 		length--;
 	}
@@ -360,9 +363,10 @@ void BrainfuckTool::ChangeIndexRelativeToValueAtIndex(int index)
 	int origin = virtualDataIndex;
 	int tempIndex = NewTempVariable();
 
+	ChangeIndexAbsolute(index);
 	CopyToIndex(tempIndex);
 	ChangeIndexAbsolute(tempIndex);
-	Branch();
+	Branch(false);
 		// Problem: At the end of this loop we need to decrese a variable from a known position, but we can't get back to our new position after that
 		// Idea: We tab over into the temp variables between here and the destination, adding 1 to them, and then moving right through all of them at the end
 		// To explain more: if each loop we go out by 2 till we reach a 0 in a temp variable, then we add 1 to that temp variable and loop again, till we get where we want
@@ -372,7 +376,7 @@ void BrainfuckTool::ChangeIndexRelativeToValueAtIndex(int index)
 		ChangeIndexToNextTempZero();		// Brings us to the next 0 on the "temp track"
 		Plus();								// Add one on the temp track at this position, so it's not a zero next time (We'll have to clean this up later too...)
 		ChangeIndexToPreviousTempZero();	// Fly back to our last untarnished 0 which should be 1 left of origin
-		Plus();								// <- Should be back at origin now?  Hopefully?
+		Right();								// <- Should be back at origin now?  Hopefully?
 		ChangeIndexAbsolute(tempIndex);		// This now works because it's jumping from origin every time
 		Minus();							// Finally we get to reduce our counter by 1!
 	Loop();
