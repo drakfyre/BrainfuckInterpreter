@@ -139,6 +139,7 @@
     <None Include="sierpinski.b" />
     <None Include="tictactoe.b" />
     <None Include="week6alpha.b" />
+    <None Include="week6beta.b" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BFVM.h" />

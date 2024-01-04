@@ -31,6 +31,7 @@ int main()
     constexpr int kLevelHeight = 15;
 
     BrainfuckTool tool;
+ 
     int wIndex = tool.NewVariable('w');
     int aIndex = tool.NewVariable('a');
     int sIndex = tool.NewVariable('s');
@@ -48,7 +49,7 @@ int main()
     int gameMapIndex = tool.NewArray(levelArray, kLevelWidth * kLevelHeight, kLevelWidth);
 
     tool.ChangeIndexAbsolute(gameRunning);
-    tool.Branch(); // False forces immediate resolve of this branch (Can only be done with branches that will not be skipped 1st time or we'll crash)
+    tool.Branch(false); // False forces immediate resolve of this branch (Can only be done with branches that will not be skipped 1st time or we'll crash)
         tool.ChangeIndexAbsolute(gameMapIndex);
         tool.OutString(kLevelWidth * kLevelHeight + kLevelHeight); // Level width*height + 1 per height (because of the newlines we added in NewArray)
         tool.ChangeIndexAbsolute(inputCharacterIndex);
@@ -68,9 +69,14 @@ int main()
 
     //std::cout << tool.bfString;
 
-    std::ifstream program("week6alpha.b");
+    std::ifstream program("week6beta.b");
     std::stringstream buffer;
     buffer << program.rdbuf();
+
+    string brainfuckString = buffer.str();
+
+//    BFVM vm(brainfuckString);
+//    while (vm.Step(false));
 
 
     //std::cout << "Please type in your Brainfuck program now.\n";

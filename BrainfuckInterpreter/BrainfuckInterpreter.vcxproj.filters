@@ -47,6 +47,9 @@
     <None Include="week6alpha.b">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="week6beta.b">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BrainfuckTool.h">

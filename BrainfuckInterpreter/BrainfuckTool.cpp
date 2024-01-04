@@ -554,7 +554,7 @@ void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, 
 	SubtractValue(32); // Did you know that @ - 32 = Space?
 
 	ChangeIndexAbsolute(levelIndex);
-	ChangeIndexRelativeToValueAtIndex(playerPositionIndex);		// NOTE: I think this is busted because this is destructive to playerPositionIndex
+	ChangeIndexRelativeToValueAtIndex(playerPositionIndex);
 	AddValue(32); // Did you know that Space + 32 = @?  You should!
 
 	ChangeIndexAbsolute(playerPositionIndexTemp);
