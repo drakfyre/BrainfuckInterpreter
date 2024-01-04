@@ -140,6 +140,19 @@ void BrainfuckTool::ChangeIndexToPreviousTempZero()
 	Loop();		// If current index is 0, ends
 }
 
+void BrainfuckTool::ChangeIndexToPreviousTempOne()
+{
+	Not();
+	Branch();	// Ends if we're currently at a 1
+		Not();	// Reverse what we did before our loop
+		Left();	// Decrease current index
+		Left();	// Decrease current index
+		Not();	
+	Loop();		// If current index is 1, ends
+
+	// Do we want to clear our 1 here?
+}
+
 void BrainfuckTool::Plus()
 {
 	bfvm.brainfuckString += '+';
@@ -420,30 +433,30 @@ void BrainfuckTool::ChangeIndexRelativeToValueAtIndex(int index)
 	int origin = virtualDataIndex;
 	int tempIndex = NewTempVariable();
 
-	ChangeIndexAbsolute(index);
+	ChangeIndexRelative(index - origin);
 	CopyToIndex(tempIndex);
-	ChangeIndexAbsolute(tempIndex);
+	ChangeIndexRelative(origin - index);
 	Branch();
 		// Problem: At the end of this loop we need to decrese a variable from a known position, but we can't get back to our new position after that
 		// Idea: We tab over into the temp variables between here and the destination, adding 1 to them, and then moving right through all of them at the end
 		// To explain more: if each loop we go out by 2 till we reach a 0 in a temp variable, then we add 1 to that temp variable and loop again, till we get where we want
 		// Bonus problem: I can't "ChangeIndexAbsolute" from unknown/non-absolute coordinates, which is why I scan BACK to get to the origin instead of just "absoluting" there
-		ChangeIndexAbsolute(origin);
 		NewTempVariable();					// Sets us on the "temp track"; we don't care about the return value
 		ChangeIndexToNextTempZero();		// Brings us to the next 0 on the "temp track"
 		Plus();								// Add one on the temp track at this position, so it's not a zero next time (We'll have to clean this up later too...)
 		ChangeIndexToPreviousTempZero();	// Fly back to our last untarnished 0 which should be 1 left of origin
 		Right();							// <- Should be back at origin now?  Hopefully?
-		Right();
+		Right();							// Now at tempIndex
 		//ChangeIndexAbsolute(tempIndex);		// This now works because it's jumping from origin every time
 		Minus();							// Finally we get to reduce our counter by 1!
 	Loop();
 
 	Plus();		// This is because I blew away tempIndex even though it's part of my breadcrumb trail
 
-	ChangeIndexAbsolute(origin);
-
-	NewTempVariable();	// Temp track
+	// We're already on the Temp track here so I removed these commands, hopefully everything will still work (gonna break so much stuff...)
+	////ChangeIndexAbsolute(origin);
+	//Left();		// From tempIndex to origin
+	//NewTempVariable();	// Temp track
 
 	// At this point we've got a pathway of ones we can follow to find where our @ symbol is (give or take 1? programmer's curse)
 	// Which is where we want to end on, so we should pick up our 1 debris as we go

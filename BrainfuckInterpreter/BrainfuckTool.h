@@ -26,9 +26,11 @@ public:
 	void ChangeIndexRelative(int offset);
 	void ChangeIndexAbsolute(int index);
 	void ChangeIndexRelativeToValueAtIndex(int index);
+	void ScanLeftForOne();
 	void ChangeIndexToNextZero();
 	void ChangeIndexToNextTempZero();
 	void ChangeIndexToPreviousTempZero();
+	void ChangeIndexToPreviousTempOne();
 	void CopyToOffset(int offset);
 	void SubtractFromOffset(int offset);
 	void CopyToIndex(int index);
