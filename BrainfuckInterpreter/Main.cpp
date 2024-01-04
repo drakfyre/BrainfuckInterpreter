@@ -48,14 +48,14 @@ int main()
     int gameRunning = tool.NewVariable(1);
     int gameMapIndex = tool.NewArray(levelArray, kLevelWidth * kLevelHeight, kLevelWidth);
 
-    tool.ChangeIndexAbsolute(gameRunning);
+    tool.ChangeIndexRelative(gameRunning - tool.GetVirtualDataIndex());
     tool.Branch(false); // False forces immediate resolve of this branch (Can only be done with branches that will not be skipped 1st time or we'll crash)
-        tool.ChangeIndexAbsolute(gameMapIndex);
+        tool.ChangeIndexRelative(gameMapIndex - gameRunning);
         tool.OutString(kLevelWidth * kLevelHeight + kLevelHeight); // Level width*height + 1 per height (because of the newlines we added in NewArray)
-        tool.ChangeIndexAbsolute(inputCharacterIndex);
+        tool.ChangeIndexRelative(inputCharacterIndex - tool.GetVirtualDataIndex());
         tool.In();
         tool.PlayerLogic(wIndex, aIndex, sIndex, dIndex, wIndexTemp, aIndexTemp, sIndexTemp, dIndexTemp, playerPositionIndex, playerPositionIndexTemp, gameMapIndex, widthIndex);
-        tool.ChangeIndexAbsolute(gameRunning);
+        tool.ChangeIndexRelative(gameRunning - inputCharacterIndex);
     tool.Loop();
 
     // Okay, so in our original progam, during our output function if the position matches the player, we output @

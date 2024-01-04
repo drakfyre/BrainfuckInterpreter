@@ -32,6 +32,7 @@ public:
 	void CopyToOffset(int offset);
 	void SubtractFromOffset(int offset);
 	void CopyToIndex(int index);
+	void AddToOffset(int offset);
 	void AddToIndex(int index);
 	void SubtractFromIndex(int index);
 	void SetZero();
@@ -41,6 +42,7 @@ public:
 	void MoveToOffset(int offset);
 	void MoveToIndex(int index); // might have a problem?
 	void OutString(int length);
+	int GetVirtualDataIndex() { return virtualDataIndex; }
 
 	BFVM bfvm;
 

@@ -317,6 +317,11 @@ void BrainfuckTool::CopyToIndex(int index)
 	CopyToOffset(offset);
 }
 
+void BrainfuckTool::AddToOffset(int offset)
+{
+	CopyToOffset(offset);
+}
+
 void BrainfuckTool::AddToIndex(int index)
 {
 	CopyToIndex(index);
@@ -463,97 +468,98 @@ void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, 
 	int origin = virtualDataIndex;
 
 	// Copy to our temp variables
-	ChangeIndexAbsolute(wIndex);
-	CopyToIndex(wIndexTemp);
-	ChangeIndexAbsolute(aIndex);
-	CopyToIndex(aIndexTemp);
-	ChangeIndexAbsolute(sIndex);
-	CopyToIndex(sIndexTemp);
-	ChangeIndexAbsolute(dIndex);
-	CopyToIndex(dIndexTemp);
-	ChangeIndexAbsolute(playerPositionIndex);
-	CopyToIndex(playerPositionIndexTemp);
+	ChangeIndexRelative(wIndex - origin);
+	CopyToOffset(wIndexTemp - wIndex);
+	ChangeIndexRelative(aIndex - wIndex);
+	CopyToOffset(aIndexTemp - aIndex);
+	ChangeIndexRelative(sIndex - aIndex);
+	CopyToOffset(sIndexTemp - sIndex);
+	ChangeIndexRelative(dIndex - sIndex);
+	CopyToOffset(dIndexTemp - dIndex);
+	ChangeIndexRelative(playerPositionIndex - dIndex);
+	CopyToOffset(playerPositionIndexTemp - playerPositionIndex);
 
 	// Current index is the key pressed
-	ChangeIndexAbsolute(origin);
+	ChangeIndexRelative(origin - playerPositionIndex);
 
 	Branch();
 		// Subtract from all till origin is 0
-		ChangeIndexAbsolute(wIndexTemp);
+		ChangeIndexRelative(wIndexTemp - origin);
 		Minus();
-		ChangeIndexAbsolute(aIndexTemp);
+		ChangeIndexRelative(aIndexTemp - wIndexTemp);
 		Minus();
-		ChangeIndexAbsolute(sIndexTemp);
+		ChangeIndexRelative(sIndexTemp - aIndexTemp);
 		Minus();
-		ChangeIndexAbsolute(dIndexTemp);
+		ChangeIndexRelative(dIndexTemp - sIndexTemp);
 		Minus();
-		ChangeIndexAbsolute(origin);
+		ChangeIndexRelative(origin - dIndexTemp);
 		Minus();
 	Loop();	// Origin is now 0, and maybe one of w/a/s/d indexes are 0?
 
-	ChangeIndexAbsolute(wIndexTemp);
+	ChangeIndexRelative(wIndexTemp - origin);
 	Not();
 	Branch();
 		// w was entered
-		ChangeIndexAbsolute(widthIndex);
-		SubtractFromIndex(playerPositionIndex);
+		ChangeIndexRelative(widthIndex - wIndexTemp);
+		SubtractFromOffset(playerPositionIndex - widthIndex);
 
 		// This gets us back to the same position as if we didn't branch so that our "absolute" functions still work
-		ChangeIndexAbsolute(wIndexTemp);
+		ChangeIndexRelative(wIndexTemp - playerPositionIndex);
 		Minus();
 	Loop();
 
-	ChangeIndexAbsolute(aIndexTemp);
+	ChangeIndexRelative(aIndexTemp - wIndexTemp);
 	Not();
 	Branch();
 		// a was entered
-		ChangeIndexAbsolute(playerPositionIndex);
+		ChangeIndexRelative(playerPositionIndex - aIndexTemp);
 		Minus();
 
 		// This gets us back to the same position as if we didn't branch so that our "absolute" functions still work
-		ChangeIndexAbsolute(aIndexTemp);
+		ChangeIndexRelative(aIndexTemp - playerPositionIndex);
 		Minus();
 	Loop();
 
-	ChangeIndexAbsolute(sIndexTemp);
+	ChangeIndexRelative(sIndexTemp - aIndexTemp);
 	Not();
 	Branch();
 		// s was entered
-		ChangeIndexAbsolute(widthIndex);
-		AddToIndex(playerPositionIndex);
+		ChangeIndexRelative(widthIndex - sIndexTemp);
+		AddToOffset(playerPositionIndex - widthIndex);
 
 		// This gets us back to the same position as if we didn't branch so that our "absolute" functions still work
-		ChangeIndexAbsolute(sIndexTemp);
+		ChangeIndexRelative(sIndexTemp - playerPositionIndex);
 		Minus();
 	Loop();
 
-	ChangeIndexAbsolute(dIndexTemp);
+	ChangeIndexRelative(dIndexTemp - sIndexTemp);
 	Not();
 	Branch();
 		// d was entered
-		ChangeIndexAbsolute(playerPositionIndex);
+		ChangeIndexRelative(playerPositionIndex - dIndexTemp);
 		Plus();
 
 		// This gets us back to the same position as if we didn't branch so that our "absolute" functions still work
-		ChangeIndexAbsolute(dIndexTemp);
+		ChangeIndexRelative(dIndexTemp - playerPositionIndex);
 		Minus();
 	Loop();
 
-	ChangeIndexAbsolute(wIndexTemp);
+	ChangeIndexRelative(wIndexTemp - dIndexTemp);
 	SetZero();
-	ChangeIndexAbsolute(aIndexTemp);
+	ChangeIndexRelative(aIndexTemp - wIndexTemp);
 	SetZero();
-	ChangeIndexAbsolute(sIndexTemp);
+	ChangeIndexRelative(sIndexTemp - aIndexTemp);
 	SetZero();
-	ChangeIndexAbsolute(dIndexTemp);
+	ChangeIndexRelative(dIndexTemp - sIndexTemp);
 	SetZero();
 
 	// Move the @ from the old position to the new position
-	ChangeIndexAbsolute(levelIndex);
+	ChangeIndexRelative(levelIndex - dIndexTemp);
 	ChangeIndexRelativeToValueAtIndex(playerPositionIndexTemp);
 	SubtractValue(32); // Did you know that @ - 32 = Space?
 
-	ChangeIndexAbsolute(levelIndex);
+	ChangeIndexRelative(levelIndex);	// Well, here's our problem, we don't know where we are after the last operation
+										// Idea: scan left for 1, because gameRunning is 1 and right next to levelIndex
 	ChangeIndexRelativeToValueAtIndex(playerPositionIndex);
 	AddValue(32); // Did you know that Space + 32 = @?  You should!
 
