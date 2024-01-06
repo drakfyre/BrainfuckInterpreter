@@ -30,33 +30,33 @@ int main()
     constexpr int kLevelWidthPlusOne = kLevelWidth + 1;
     constexpr int kLevelHeight = 15;
 
-    BrainfuckTool tool;
+    //BrainfuckTool tool;
  
-    int wIndex = tool.NewVariable('w');
-    int aIndex = tool.NewVariable('a');
-    int sIndex = tool.NewVariable('s');
-    int dIndex = tool.NewVariable('d');
-    int wIndexTemp = tool.NewVariable(0);
-    int aIndexTemp = tool.NewVariable(0);
-    int sIndexTemp = tool.NewVariable(0);
-    int dIndexTemp = tool.NewVariable(0);
-    int inputCharacterIndex = tool.NewVariable(0);
-    int widthIndex = tool.NewVariable(kLevelWidthPlusOne);
-    int playerPositionIndex = tool.NewVariable(1 + kLevelWidthPlusOne * 1); // Position (1,1)
-    int playerPositionIndexTemp = tool.NewVariable(0);
-    int hasKeyIndex = tool.NewVariable(0);
-    int gameRunning = tool.NewVariable(1);
-    int gameMapIndex = tool.NewArray(levelArray, kLevelWidth * kLevelHeight, kLevelWidth);
+    //int wIndex = tool.NewVariable('w');
+    //int aIndex = tool.NewVariable('a');
+    //int sIndex = tool.NewVariable('s');
+    //int dIndex = tool.NewVariable('d');
+    //int wIndexTemp = tool.NewVariable(0);
+    //int aIndexTemp = tool.NewVariable(0);
+    //int sIndexTemp = tool.NewVariable(0);
+    //int dIndexTemp = tool.NewVariable(0);
+    //int inputCharacterIndex = tool.NewVariable(0);
+    //int widthIndex = tool.NewVariable(kLevelWidthPlusOne);
+    //int playerPositionIndex = tool.NewVariable(1 + kLevelWidthPlusOne * 1); // Position (1,1)
+    //int playerPositionIndexTemp = tool.NewVariable(0);
+    //int hasKeyIndex = tool.NewVariable(0);
+    //int gameRunning = tool.NewVariable(1);
+    //int gameMapIndex = tool.NewArray(levelArray, kLevelWidth * kLevelHeight, kLevelWidth);
 
-    tool.ChangeIndexRelative(gameRunning - tool.GetVirtualDataIndex());
-    tool.Branch(false); // False forces immediate resolve of this branch (Can only be done with branches that will not be skipped 1st time or we'll crash)
-        tool.ChangeIndexRelative(gameMapIndex - gameRunning);
-        tool.OutString(kLevelWidth * kLevelHeight + kLevelHeight); // Level width*height + 1 per height (because of the newlines we added in NewArray)
-        tool.ChangeIndexRelative(inputCharacterIndex - tool.GetVirtualDataIndex());
-        tool.In();
-        tool.PlayerLogic(wIndex, aIndex, sIndex, dIndex, wIndexTemp, aIndexTemp, sIndexTemp, dIndexTemp, playerPositionIndex, playerPositionIndexTemp, gameMapIndex, widthIndex);
-        tool.ChangeIndexRelative(gameRunning - inputCharacterIndex);
-    tool.Loop();
+    //tool.ChangeIndexRelative(gameRunning - tool.GetVirtualDataIndex());
+    //tool.Branch(true); // False forces immediate resolve of this branch (Can only be done with branches that will not be skipped 1st time or we'll crash)
+    //    tool.ChangeIndexRelative(gameMapIndex - gameRunning);
+    //    tool.OutString(kLevelWidth * kLevelHeight + kLevelHeight); // Level width*height + 1 per height (because of the newlines we added in NewArray)
+    //    tool.ChangeIndexRelative(inputCharacterIndex - tool.GetVirtualDataIndex());
+    //    tool.In();
+    //    tool.PlayerLogic(wIndex, aIndex, sIndex, dIndex, wIndexTemp, aIndexTemp, sIndexTemp, dIndexTemp, playerPositionIndex, playerPositionIndexTemp, gameMapIndex, widthIndex);
+    //    tool.ChangeIndexRelative(gameRunning - inputCharacterIndex);
+    //tool.Loop();
 
     // Okay, so in our original progam, during our output function if the position matches the player, we output @
     // Doing that during the output in Brainfuck would require us to thrash around between memory, checking every spot to see if it should be @
@@ -75,8 +75,8 @@ int main()
 
     string brainfuckString = buffer.str();
 
-//    BFVM vm(brainfuckString);
-//    while (vm.Step(false));
+    BFVM vm(brainfuckString);
+    while (vm.Step(false));
 
 
     //std::cout << "Please type in your Brainfuck program now.\n";

@@ -482,7 +482,7 @@ void BrainfuckTool::ChangeIndexLeftRelativeToValueAtIndex(int index)
 	int origin = virtualDataIndex;
 	int tempIndex = NewTempVariable();
 
-	ChangeIndexRelative(index - origin);
+	ChangeIndexRelative(index - tempIndex);
 	CopyToIndex(tempIndex);
 	ChangeIndexRelative(origin - index);
 	NewTempVariable();					// Sets us on the "temp track"; we don't care about the return value
@@ -518,9 +518,7 @@ void BrainfuckTool::ChangeIndexLeftRelativeToValueAtIndex(int index)
 	Loop();
 
 
-	Left();
-	Left();
-	Left();
+	Right();
 }
 
 void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, int wIndexTemp, int aIndexTemp, int sIndexTemp, int dIndexTemp, int playerPositionIndex, int playerPositionIndexTemp, int levelIndex, int widthIndex)
@@ -628,5 +626,5 @@ void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, 
 	ChangeIndexRelative(playerPositionIndexTemp - levelIndex);
 	SetZero();
 
-	ChangeIndexAbsolute(origin - playerPositionIndexTemp);
+	ChangeIndexRelative(origin - playerPositionIndexTemp);
 }
