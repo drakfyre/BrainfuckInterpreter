@@ -69,6 +69,7 @@ int main()
 
     //std::cout << tool.bfString;
 
+
     std::ifstream program("week6beta.b");
     std::stringstream buffer;
     buffer << program.rdbuf();
