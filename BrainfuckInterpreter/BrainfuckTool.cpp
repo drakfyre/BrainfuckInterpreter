@@ -287,20 +287,21 @@ void BrainfuckTool::CopyToOffset(int offset)
 
 	// First: Move origin to our counter temporary variable
 	int counter = NewTempVariable();
-	ChangeIndexAbsolute(origin);
+	ChangeIndexRelative(origin - counter);
 	MoveToIndex(counter);
 
-	ChangeIndexAbsolute(counter);
+	ChangeIndexRelative(counter - origin);
 
 	Branch();						// If current value is 0 we end up at associated loop; we'd be done in that case anyway so that's perfect
-		ChangeIndexAbsolute(origin);	// We change index to our origin (which now contains 0)
-		Plus();							// We add 1 to our origin
-		ChangeIndexRelative(offset);	// We change index to our destination
-		Plus();							// We add 1 our destination
-		ChangeIndexAbsolute(counter);	// We change index to our counter
-		Minus();						// Subtract 1 from our counter
-		Loop();							// Loop till counter is 0
-	ChangeIndexAbsolute(origin);
+		ChangeIndexRelative(origin - counter);	// We change index to our origin (which now contains 0)
+		Plus();									// We add 1 to our origin
+		ChangeIndexRelative(offset);			// We change index to our destination
+		Plus();									// We add 1 our destination
+		ChangeIndexRelative(-offset);			// We go back to origin
+		ChangeIndexRelative(counter - origin);	// We change index to our counter
+		Minus();								// Subtract 1 from our counter
+	Loop();							// Loop till counter is 0
+	ChangeIndexRelative(origin - counter);
 }
 
 // I suspect there's a bug here, we hang on w currently
@@ -433,10 +434,10 @@ void BrainfuckTool::ChangeIndexRelativeToValueAtIndex(int index)
 	int origin = virtualDataIndex;
 	int tempIndex = NewTempVariable();
 
-	ChangeIndexRelative(index - origin);
+	ChangeIndexRelative(index - tempIndex);
 	CopyToIndex(tempIndex);
 	ChangeIndexRelative(origin - index);
-	Branch();
+	Branch(true);
 		// Problem: At the end of this loop we need to decrese a variable from a known position, but we can't get back to our new position after that
 		// Idea: We tab over into the temp variables between here and the destination, adding 1 to them, and then moving right through all of them at the end
 		// To explain more: if each loop we go out by 2 till we reach a 0 in a temp variable, then we add 1 to that temp variable and loop again, till we get where we want
@@ -471,6 +472,52 @@ void BrainfuckTool::ChangeIndexRelativeToValueAtIndex(int index)
 
 	// This means we got to a 0, which means we're very close to our @ symbol, I think a left from here will get where we want to be
 	// (But it could be right, we'll see in testing)
+	Left();
+	Left();
+	Left();
+}
+
+void BrainfuckTool::ChangeIndexLeftRelativeToValueAtIndex(int index)
+{
+	int origin = virtualDataIndex;
+	int tempIndex = NewTempVariable();
+
+	ChangeIndexRelative(index - origin);
+	CopyToIndex(tempIndex);
+	ChangeIndexRelative(origin - index);
+	Branch();
+		// Problem: At the end of this loop we need to decrese a variable from a known position, but we can't get back to our new position after that
+		// Idea: We tab over into the temp variables between here and the destination, adding 1 to them, and then moving right through all of them at the end
+		// To explain more: if each loop we go out by 2 till we reach a 0 in a temp variable, then we add 1 to that temp variable and loop again, till we get where we want
+		// Bonus problem: I can't "ChangeIndexAbsolute" from unknown/non-absolute coordinates, which is why I scan BACK to get to the origin instead of just "absoluting" there
+		NewTempVariable();					// Sets us on the "temp track"; we don't care about the return value
+		ChangeIndexToPreviousTempZero();		// Brings us to the next 0 on the "temp track"
+		Plus();								// Add one on the temp track at this position, so it's not a zero next time (We'll have to clean this up later too...)
+		ChangeIndexToNextTempZero();		// Fly back to our last untarnished 0 which should be 1 right of origin
+		Left();								
+		Left();								// Now at tempIndex
+		Minus();							// Finally we get to reduce our counter by 1!
+	Loop();
+
+	Plus();		// This is because I blew away tempIndex even though it's part of my breadcrumb trail
+
+	// We're already on the Temp track here so I removed these commands, hopefully everything will still work (gonna break so much stuff...)
+	////ChangeIndexAbsolute(origin);
+	//Left();		// From tempIndex to origin
+	//NewTempVariable();	// Temp track
+
+	// At this point we've got a pathway of ones we can follow to find where our @ symbol is (give or take 1? programmer's curse)
+	// Which is where we want to end on, so we should pick up our 1 debris as we go
+	Branch();
+		Minus();			// Changes 1 to 0 in most cases, till we get to the end where it changes 0 to 255 or something, who cares, we'll kill it in the next loop
+		Branch();
+			Minus();		// Clear the final 255 so we are clean and can drop out of this creative mess
+		Loop();
+		Left();
+		Left();
+	Loop();
+
+
 	Left();
 	Left();
 	Left();
@@ -576,7 +623,10 @@ void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, 
 	ChangeIndexRelativeToValueAtIndex(playerPositionIndex);
 	AddValue(32); // Did you know that Space + 32 = @?  You should!
 
-	ChangeIndexAbsolute(playerPositionIndexTemp);
+	ChangeIndexLeftRelativeToValueAtIndex(playerPositionIndex);
+
+	ChangeIndexRelative(playerPositionIndexTemp - levelIndex);
 	SetZero();
-	ChangeIndexAbsolute(origin);
+
+	ChangeIndexAbsolute(origin - playerPositionIndexTemp);
 }
