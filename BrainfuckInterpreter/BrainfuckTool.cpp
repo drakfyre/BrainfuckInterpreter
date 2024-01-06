@@ -437,12 +437,12 @@ void BrainfuckTool::ChangeIndexRelativeToValueAtIndex(int index)
 	ChangeIndexRelative(index - tempIndex);
 	CopyToIndex(tempIndex);
 	ChangeIndexRelative(origin - index);
+	NewTempVariable();					// Sets us on the "temp track"; we don't care about the return value
 	Branch(true);
 		// Problem: At the end of this loop we need to decrese a variable from a known position, but we can't get back to our new position after that
 		// Idea: We tab over into the temp variables between here and the destination, adding 1 to them, and then moving right through all of them at the end
 		// To explain more: if each loop we go out by 2 till we reach a 0 in a temp variable, then we add 1 to that temp variable and loop again, till we get where we want
 		// Bonus problem: I can't "ChangeIndexAbsolute" from unknown/non-absolute coordinates, which is why I scan BACK to get to the origin instead of just "absoluting" there
-		NewTempVariable();					// Sets us on the "temp track"; we don't care about the return value
 		ChangeIndexToNextTempZero();		// Brings us to the next 0 on the "temp track"
 		Plus();								// Add one on the temp track at this position, so it's not a zero next time (We'll have to clean this up later too...)
 		ChangeIndexToPreviousTempZero();	// Fly back to our last untarnished 0 which should be 1 left of origin
@@ -485,12 +485,12 @@ void BrainfuckTool::ChangeIndexLeftRelativeToValueAtIndex(int index)
 	ChangeIndexRelative(index - origin);
 	CopyToIndex(tempIndex);
 	ChangeIndexRelative(origin - index);
+	NewTempVariable();					// Sets us on the "temp track"; we don't care about the return value
 	Branch();
 		// Problem: At the end of this loop we need to decrese a variable from a known position, but we can't get back to our new position after that
 		// Idea: We tab over into the temp variables between here and the destination, adding 1 to them, and then moving right through all of them at the end
 		// To explain more: if each loop we go out by 2 till we reach a 0 in a temp variable, then we add 1 to that temp variable and loop again, till we get where we want
 		// Bonus problem: I can't "ChangeIndexAbsolute" from unknown/non-absolute coordinates, which is why I scan BACK to get to the origin instead of just "absoluting" there
-		NewTempVariable();					// Sets us on the "temp track"; we don't care about the return value
 		ChangeIndexToPreviousTempZero();		// Brings us to the next 0 on the "temp track"
 		Plus();								// Add one on the temp track at this position, so it's not a zero next time (We'll have to clean this up later too...)
 		ChangeIndexToNextTempZero();		// Fly back to our last untarnished 0 which should be 1 right of origin
@@ -618,8 +618,8 @@ void BrainfuckTool::PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, 
 	ChangeIndexRelativeToValueAtIndex(playerPositionIndexTemp);
 	SubtractValue(32); // Did you know that @ - 32 = Space?
 
-	ChangeIndexRelative(levelIndex);	// Well, here's our problem, we don't know where we are after the last operation
-										// Idea: scan left for 1, because gameRunning is 1 and right next to levelIndex
+	ChangeIndexLeftRelativeToValueAtIndex(playerPositionIndexTemp);
+
 	ChangeIndexRelativeToValueAtIndex(playerPositionIndex);
 	AddValue(32); // Did you know that Space + 32 = @?  You should!
 
