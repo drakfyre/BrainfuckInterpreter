@@ -514,9 +514,13 @@ void BrainfuckTool::PlayerLogic(int inputCharacterIndex, int wIndex, int aIndex,
 	ChangeIndexRelative(levelIndex - dIndexTemp);
 	ChangeIndexRelativeToValueAtOffset(playerPositionIndex - levelIndex);
 	SubtractValue(32);
+	Right();
+	Plus();
+	Left();
 
 	Branch();
 		// We aren't at 0
+		AddValue(32);	// Get map back to proper value
 
 		Left();
 		ChangeIndexToPreviousTempOne();
@@ -531,9 +535,18 @@ void BrainfuckTool::PlayerLogic(int inputCharacterIndex, int wIndex, int aIndex,
 		ChangeIndexRelative(levelIndex - playerPositionIndexTemp);
 		ChangeIndexRelativeToValueAtOffset(playerPositionIndex - levelIndex);
 		// Problem now is that loop will always be true in case of collision
+		Right();
+		Minus();
 	Loop();
 
-	AddValue(32);	// Get map back to proper value
+	Right();
+	Branch();
+		Minus();
+		Left();
+		AddValue(32);	// Get map back to proper value
+		Right();
+	Loop();
+	Left();
 
 	Left();
 	ChangeIndexToPreviousTempOne();
