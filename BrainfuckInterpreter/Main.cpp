@@ -45,18 +45,18 @@ int main()
     int playerPositionIndex = tool.NewVariable(1 + kLevelWidthPlusOne * 1); // Position (1,1)
     int playerPositionIndexTemp = tool.NewVariable(0);
     int hasKeyIndex = tool.NewVariable(0);
-    int gameRunning = tool.NewVariable(1);
+    int gameRunningIndex = tool.NewVariable(1);
     int gameMapIndex = tool.NewArray(levelArray, kLevelWidth * kLevelHeight, kLevelWidth);
     int oneAfterGameMapIndex = tool.NewVariable(0);
 
-    tool.ChangeIndexRelative(gameRunning - oneAfterGameMapIndex - 2);
+    tool.ChangeIndexRelative(gameRunningIndex - oneAfterGameMapIndex - 2);
     tool.Branch(true); // False forces immediate resolve of this branch (Can only be done with branches that will not be skipped 1st time or we'll crash)
-        tool.ChangeIndexRelative(gameMapIndex - gameRunning);
+        tool.ChangeIndexRelative(gameMapIndex - gameRunningIndex);
         tool.OutString(kLevelWidth * kLevelHeight + kLevelHeight); // Level width*height + 1 per height (because of the newlines we added in NewArray)
         tool.ChangeIndexRelative(inputCharacterIndex - (oneAfterGameMapIndex));
         tool.In();
         tool.PlayerLogic(inputCharacterIndex, wIndex, aIndex, sIndex, dIndex, wIndexTemp, aIndexTemp, sIndexTemp, dIndexTemp, playerPositionIndex, playerPositionIndexTemp, gameMapIndex, widthIndex);
-        tool.ChangeIndexRelative(gameRunning - inputCharacterIndex);
+        tool.ChangeIndexRelative(gameRunningIndex - inputCharacterIndex);
     tool.Loop();
 
     // Okay, so in our original progam, during our output function if the position matches the player, we output @
