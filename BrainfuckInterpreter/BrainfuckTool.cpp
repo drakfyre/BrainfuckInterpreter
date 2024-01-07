@@ -197,7 +197,7 @@ void BrainfuckTool::Not()
 		Plus();		// Make our 0 into a 1
 		Right();
 		Minus();	// Reset our neighbor
-		Loop();
+	Loop();
 	Left();
 }
 
