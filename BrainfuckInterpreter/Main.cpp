@@ -50,7 +50,7 @@ int main()
     int oneAfterGameMapIndex = tool.NewVariable(0);
 
     tool.ChangeIndexRelative(gameRunningIndex - oneAfterGameMapIndex - 2);
-    tool.Branch(true); // False forces immediate resolve of this branch (Can only be done with branches that will not be skipped 1st time or we'll crash)
+    tool.Branch(false); // False forces immediate resolve of this branch (Can only be done with branches that will not be skipped 1st time or we'll crash)
         tool.ChangeIndexRelative(gameMapIndex - gameRunningIndex);
         tool.OutString(kLevelWidth * kLevelHeight + kLevelHeight); // Level width*height + 1 per height (because of the newlines we added in NewArray)
         tool.ChangeIndexRelative(inputCharacterIndex - (oneAfterGameMapIndex));

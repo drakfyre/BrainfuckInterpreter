@@ -510,8 +510,36 @@ void BrainfuckTool::PlayerLogic(int inputCharacterIndex, int wIndex, int aIndex,
 	ChangeIndexRelative(dIndexTemp - sIndexTemp);
 	SetZero();
 
-	// Move the @ from the old position to the new position
+	// Check playerPositionIndex offset and skip other logic if possible?
 	ChangeIndexRelative(levelIndex - dIndexTemp);
+	ChangeIndexRelativeToValueAtOffset(playerPositionIndex - levelIndex);
+	SubtractValue(32);
+
+	Branch();
+		// We aren't at 0
+
+		Left();
+		ChangeIndexToPreviousTempOne();
+		Plus(); // Un-reset temp one
+		Left();
+		// We're now at levelIndex
+
+		ChangeIndexRelative(playerPositionIndex - levelIndex);
+		SetZero();
+		ChangeIndexRelative(playerPositionIndexTemp - playerPositionIndex);
+		CopyToOffset(playerPositionIndex);
+		ChangeIndexRelative(levelIndex - playerPositionIndexTemp);
+		ChangeIndexRelativeToValueAtOffset(playerPositionIndex - levelIndex);
+		// Problem now is that loop will always be true in case of collision
+	Loop();
+
+	AddValue(32);	// Get map back to proper value
+
+	Left();
+	ChangeIndexToPreviousTempOne();
+	Left();
+	// We're now at levelIndex (maybe again?)
+
 	ChangeIndexRelativeToValueAtOffset(playerPositionIndexTemp - levelIndex);
 	SubtractValue(32); // Did you know that @ - 32 = Space?
 
