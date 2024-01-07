@@ -47,17 +47,17 @@ int main()
     int hasKeyIndex = tool.NewVariable(0);
     int gameRunning = tool.NewVariable(1);
     int gameMapIndex = tool.NewArray(levelArray, kLevelWidth * kLevelHeight, kLevelWidth);
+    int oneAfterGameMapIndex = tool.NewVariable(0);
 
-    //tool.ChangeIndexRelative(gameRunning - tool.GetVirtualDataIndex());
+    //tool.ChangeIndexRelative(gameRunning - oneAfterGameMapIndex - 2);
     //tool.Branch(true); // False forces immediate resolve of this branch (Can only be done with branches that will not be skipped 1st time or we'll crash)
     //    tool.ChangeIndexRelative(gameMapIndex - gameRunning);
     //    tool.OutString(kLevelWidth * kLevelHeight + kLevelHeight); // Level width*height + 1 per height (because of the newlines we added in NewArray)
-    //    tool.ChangeIndexRelative(inputCharacterIndex - tool.GetVirtualDataIndex());
+    //    tool.ChangeIndexRelative(inputCharacterIndex - (oneAfterGameMapIndex));
     //    tool.In();
-    //    tool.PlayerLogic(wIndex, aIndex, sIndex, dIndex, wIndexTemp, aIndexTemp, sIndexTemp, dIndexTemp, playerPositionIndex, playerPositionIndexTemp, gameMapIndex, widthIndex);
+    //    tool.PlayerLogic(inputCharacterIndex, wIndex, aIndex, sIndex, dIndex, wIndexTemp, aIndexTemp, sIndexTemp, dIndexTemp, playerPositionIndex, playerPositionIndexTemp, gameMapIndex, widthIndex);
     //    tool.ChangeIndexRelative(gameRunning - inputCharacterIndex);
-    //    tool.ChangeIndexRelative(28+26);
-    //    //tool.Plus();    // Force loop while I figure this thing out
+    //    tool.Plus();    // Force loop while I figure this thing out
     //tool.Loop();
 
     // Okay, so in our original progam, during our output function if the position matches the player, we output @

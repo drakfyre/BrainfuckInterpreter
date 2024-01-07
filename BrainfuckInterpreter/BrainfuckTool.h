@@ -26,6 +26,7 @@ public:
 	void ChangeIndexRelative(int offset);
 	void ChangeIndexAbsolute(int index);
 	void ChangeIndexRelativeToValueAtIndex(int index);
+	void ChangeIndexRelativeToValueAtOffset(int offset);
 	void ChangeIndexLeftRelativeToValueAtIndex(int index);
 	void ChangeIndexLeftRelativeToValueAtOffset(int offset);
 	void ScanLeftForOne();
@@ -42,7 +43,7 @@ public:
 	void SetZero();
 	void Not();
 	void NotInMyBackyard(int tempVariableIndex);
-	void PlayerLogic(int wIndex, int aIndex, int sIndex, int dIndex, int wIndexTemp, int aIndexTemp, int sIndexTemp, int dIndexTemp, int playerPositionIndex, int playerPositionIndexTemp, int levelIndex, int widthIndex);
+	void PlayerLogic(int inputCharacterIndex, int wIndex, int aIndex, int sIndex, int dIndex, int wIndexTemp, int aIndexTemp, int sIndexTemp, int dIndexTemp, int playerPositionIndex, int playerPositionIndexTemp, int levelIndex, int widthIndex);
 	void MoveToOffset(int offset);
 	void MoveToIndex(int index); // might have a problem?
 	void OutString(int length);
