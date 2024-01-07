@@ -132,9 +132,9 @@ void BrainfuckTool::Loop(bool resolveLoops)
 
 void BrainfuckTool::SetZero()
 {
-	Branch();
-		Minus();
-	Loop();
+	Branch();	// Ends if we're currently at 0
+		Minus();	// Subtract 1
+	Loop();		// Ends if we're currently at 0
 }
 
 void BrainfuckTool::ChangeIndexToNextTempZero()
@@ -153,9 +153,6 @@ void BrainfuckTool::ChangeIndexToPreviousTempZero()
 	Loop();		// If current index is 0, ends
 }
 
-// This isn't working because Not is destructive and we're already using the temp variables
-// So gonna bring back NotInMyBackyard (and make it actually work?)
-// Or just gonna gut Not out of this
 void BrainfuckTool::ChangeIndexToPreviousTempOne()
 {
 	Minus();
@@ -166,7 +163,7 @@ void BrainfuckTool::ChangeIndexToPreviousTempOne()
 		Minus();
 	Loop();		// If current index is 1, ends
 
-	// Do we want to clear our 1 here?
+	// This clears our one; we rely on this later so not changing it for now
 }
 
 void BrainfuckTool::Not()
@@ -286,7 +283,6 @@ void BrainfuckTool::AddToOffset(int offset)
 	ChangeIndexRelative(origininalOffset - counter);
 }
 
-// I suspect there's a bug here, we hang on w currently
 void BrainfuckTool::SubtractFromOffset(int offset)
 {
 	int originalOffset = 0;
