@@ -57,7 +57,6 @@ int main()
         tool.In();
         tool.PlayerLogic(inputCharacterIndex, wIndex, aIndex, sIndex, dIndex, wIndexTemp, aIndexTemp, sIndexTemp, dIndexTemp, playerPositionIndex, playerPositionIndexTemp, gameMapIndex, widthIndex);
         tool.ChangeIndexRelative(gameRunning - inputCharacterIndex);
-        tool.Plus();    // Force loop while I figure this thing out
     tool.Loop();
 
     // Okay, so in our original progam, during our output function if the position matches the player, we output @
