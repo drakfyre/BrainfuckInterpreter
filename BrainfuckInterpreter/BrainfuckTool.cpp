@@ -513,14 +513,16 @@ void BrainfuckTool::PlayerLogic(int inputCharacterIndex, int wIndex, int aIndex,
 	// Check playerPositionIndex offset and skip other logic if possible?
 	ChangeIndexRelative(levelIndex - dIndexTemp);
 	ChangeIndexRelativeToValueAtOffset(playerPositionIndex - levelIndex);
+
+	// next, try copying the value somewhere first, and testing it there instead
+	// Then we don't have to restore anything?  Might solve our problem
 	SubtractValue(32);
+	Not();
 	Right();
 	Plus();
 	Left();
 
 	Branch();
-		// We aren't at 0
-		AddValue(32);	// Get map back to proper value
 
 		Left();
 		ChangeIndexToPreviousTempOne();
@@ -531,13 +533,15 @@ void BrainfuckTool::PlayerLogic(int inputCharacterIndex, int wIndex, int aIndex,
 		ChangeIndexRelative(playerPositionIndex - levelIndex);
 		SetZero();
 		ChangeIndexRelative(playerPositionIndexTemp - playerPositionIndex);
-		CopyToOffset(playerPositionIndex);
+		CopyToOffset(playerPositionIndex);		// Player should now be what it was before, enacting collision
 		ChangeIndexRelative(levelIndex - playerPositionIndexTemp);
 		ChangeIndexRelativeToValueAtOffset(playerPositionIndex - levelIndex);
 		// Problem now is that loop will always be true in case of collision
 		Right();
 		Minus();
 	Loop();
+
+	AddValue(63);
 
 	Right();
 	Branch();
