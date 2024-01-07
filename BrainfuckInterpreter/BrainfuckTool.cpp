@@ -134,14 +134,17 @@ void BrainfuckTool::ChangeIndexToPreviousTempZero()
 	Loop();		// If current index is 0, ends
 }
 
+// This isn't working because Not is destructive and we're already using the temp variables
+// So gonna bring back NotInMyBackyard (and make it actually work?)
+// Or just gonna gut Not out of this
 void BrainfuckTool::ChangeIndexToPreviousTempOne()
 {
-	Not();
+	Minus();
 	Branch();	// Ends if we're currently at a 1
-		Not();	// Reverse what we did before our loop
+		Plus();	// Reverse what we did before our loop
 		Left();	// Decrease current index
 		Left();	// Decrease current index
-		Not();	
+		Minus();
 	Loop();		// If current index is 1, ends
 
 	// Do we want to clear our 1 here?
@@ -370,7 +373,6 @@ void BrainfuckTool::ChangeIndexRelativeToValueAtOffset(int offset)
 	ChangeIndexRelative(offset - tempIndex);
 	CopyToOffset(tempIndex - offset);
 	ChangeIndexRelative(tempIndex - offset);
-	NewTempVariable();					// Sets us on the "temp track"; we don't care about the return value
 	Branch(true);
 		// Problem: At the end of this loop we need to decrese a variable from a known position, but we can't get back to our new position after that
 		// Idea: We tab over into the temp variables between here and the destination, adding 1 to them, and then moving right through all of them at the end
@@ -395,6 +397,7 @@ void BrainfuckTool::ChangeIndexRelativeToValueAtOffset(int offset)
 	// At this point we've got a pathway of ones we can follow to find where our @ symbol is (give or take 1? programmer's curse)
 	// Which is where we want to end on, so we should pick up our 1 debris as we go
 	// Though we keep our first 1 around so that we can scan back to it!
+	Right();
 	Right();
 	Branch();
 		Minus();			// Changes 1 to 0 in most cases, till we get to the end where it changes 0 to 255 or something, who cares, we'll kill it in the next loop
@@ -551,19 +554,19 @@ void BrainfuckTool::PlayerLogic(int inputCharacterIndex, int wIndex, int aIndex,
 	ChangeIndexRelative(levelIndex - dIndexTemp);
 	ChangeIndexRelativeToValueAtOffset(playerPositionIndexTemp - levelIndex);
 	SubtractValue(32); // Did you know that @ - 32 = Space?
+	Left();
 
 	// Okay this doesn't work: We don't know where we are coming from so we can't know where the indexes are in relationship
 	// to out position.  So what we should do here is keep a 1 from the breadcrumb trail to scan to instead
 	//ChangeIndexLeftRelativeToValueAtOffset(playerPositionIndexTemp);
 	ChangeIndexToPreviousTempOne();
-	Not();
 	Left();
 
-	ChangeIndexRelativeToValueAtOffset(playerPositionIndex);
+	ChangeIndexRelativeToValueAtOffset(playerPositionIndex - levelIndex);
 	AddValue(32); // Did you know that Space + 32 = @?  You should!
+	Left();
 
 	ChangeIndexToPreviousTempOne();
-	Not();
 	Left();
 
 	ChangeIndexRelative(playerPositionIndexTemp - levelIndex);
