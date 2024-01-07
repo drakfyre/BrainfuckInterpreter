@@ -556,9 +556,8 @@ void BrainfuckTool::PlayerLogic(int inputCharacterIndex, int wIndex, int aIndex,
 	SubtractValue(32); // Did you know that @ - 32 = Space?
 	Left();
 
-	// Okay this doesn't work: We don't know where we are coming from so we can't know where the indexes are in relationship
-	// to out position.  So what we should do here is keep a 1 from the breadcrumb trail to scan to instead
-	//ChangeIndexLeftRelativeToValueAtOffset(playerPositionIndexTemp);
+	// We don't know where we are coming from so we can't know where the indexes are in relationship
+	// What we do here is keep a 1 from the breadcrumb trail to scan back to instead
 	ChangeIndexToPreviousTempOne();
 	Left();
 
@@ -566,6 +565,8 @@ void BrainfuckTool::PlayerLogic(int inputCharacterIndex, int wIndex, int aIndex,
 	AddValue(32); // Did you know that Space + 32 = @?  You should!
 	Left();
 
+	// We don't know where we are coming from so we can't know where the indexes are in relationship
+	// What we do here is keep a 1 from the breadcrumb trail to scan back to instead
 	ChangeIndexToPreviousTempOne();
 	Left();
 
