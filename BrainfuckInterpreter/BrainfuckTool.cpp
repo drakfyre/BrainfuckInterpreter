@@ -501,7 +501,7 @@ void BrainfuckTool::PlayerLogic(int inputCharacterIndex, int wIndex, int aIndex,
 		SubtractFromOffset(playerPositionIndex - widthIndex);
 
 		// This gets us back to the same position as if we didn't branch so that our "absolute" functions still work
-		ChangeIndexRelative(wIndexTemp - playerPositionIndex);
+		ChangeIndexRelative(wIndexTemp - widthIndex);
 		Minus();
 	Loop();
 
@@ -525,7 +525,7 @@ void BrainfuckTool::PlayerLogic(int inputCharacterIndex, int wIndex, int aIndex,
 		AddToOffset(playerPositionIndex - widthIndex);
 
 		// This gets us back to the same position as if we didn't branch so that our "absolute" functions still work
-		ChangeIndexRelative(sIndexTemp - playerPositionIndex);
+		ChangeIndexRelative(sIndexTemp - widthIndex);
 		Minus();
 	Loop();
 
