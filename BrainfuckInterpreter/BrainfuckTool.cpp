@@ -315,12 +315,6 @@ void BrainfuckTool::SubtractFromOffset(int offset)
 	ChangeIndexRelative(originalOffset - counter);
 }
 
-void BrainfuckTool::CopyToIndex(int index)
-{
-	int offset = index - virtualDataIndex;
-	CopyToOffset(offset);
-}
-
 void BrainfuckTool::AddToOffset(int offset)
 {
 	CopyToOffset(offset);
@@ -375,7 +369,7 @@ void BrainfuckTool::ChangeIndexRelativeToValueAtOffset(int offset)
 	NewTempVariable();
 
 	ChangeIndexRelative(offset - tempIndex);
-	CopyToIndex(tempIndex);
+	CopyToOffset(tempIndex - offset);
 	ChangeIndexRelative(tempIndex - offset);
 	NewTempVariable();					// Sets us on the "temp track"; we don't care about the return value
 	Branch(true);
@@ -421,16 +415,13 @@ void BrainfuckTool::ChangeIndexRelativeToValueAtOffset(int offset)
 
 void BrainfuckTool::ChangeIndexLeftRelativeToValueAtOffset(int offset)
 {
-	//int origin = virtualDataIndex;
-	//int tempIndex = NewTempVariable();
-
 	int originalOffset = 0; // It's always going to be 0 but better to make it into a variable so it's named
 	int tempIndex = 1;
 	NewTempVariable();
 
 
 	ChangeIndexRelative(offset - tempIndex);
-	CopyToIndex(tempIndex);
+	CopyToOffset(tempIndex - offset);
 	ChangeIndexRelative(tempIndex - offset);
 	Branch();
 		// Problem: At the end of this loop we need to decrese a variable from a known position, but we can't get back to our new position after that

@@ -26,18 +26,15 @@ public:
 	void ChangeIndexRelative(int offset);
 	void ChangeIndexRelativeToValueAtOffset(int offset);
 	void ChangeIndexLeftRelativeToValueAtOffset(int offset);
-	void ScanLeftForOne();
 	void ChangeIndexToNextZero();
 	void ChangeIndexToNextTempZero();
 	void ChangeIndexToPreviousTempZero();
 	void ChangeIndexToPreviousTempOne();
 	void CopyToOffset(int offset);
 	void SubtractFromOffset(int offset);
-	void CopyToIndex(int index);
 	void AddToOffset(int offset);
 	void SetZero();
 	void Not();
-	void NotInMyBackyard(int tempVariableIndex);
 	void PlayerLogic(int inputCharacterIndex, int wIndex, int aIndex, int sIndex, int dIndex, int wIndexTemp, int aIndexTemp, int sIndexTemp, int dIndexTemp, int playerPositionIndex, int playerPositionIndexTemp, int levelIndex, int widthIndex);
 	void MoveToOffset(int offset);
 	void OutString(int length);
