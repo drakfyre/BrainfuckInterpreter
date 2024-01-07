@@ -42,7 +42,7 @@ public:
 	BFVM bfvm;
 
 private:
-	int NewTempVariable();
+	void NewTempVariable();
 	int bracketDepth = 0;
 	int executionQueue = 0;
 	int virtualDataIndex = 0;

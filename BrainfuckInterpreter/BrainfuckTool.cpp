@@ -260,10 +260,9 @@ void BrainfuckTool::MoveToOffset(int offset)
 	Loop();							// If our source is 0, stop looping
 }
 
-int BrainfuckTool::NewTempVariable()
+void BrainfuckTool::NewTempVariable()
 {
 	Right();
-	return virtualDataIndex;
 }
 
 // Copies value from current memory position to offset from current memory positon, assuming that the destination contains 0
