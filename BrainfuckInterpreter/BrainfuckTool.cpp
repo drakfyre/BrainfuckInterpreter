@@ -516,58 +516,34 @@ void BrainfuckTool::PlayerLogic(int inputCharacterIndex, int wIndex, int aIndex,
 
 	// next, try copying the value somewhere first, and testing it there instead
 	// Then we don't have to restore anything?  Might solve our problem
+	// Except we can't just copy to a known position, as we don't know our position
+	// For now I'm gonna work around maybe by trying to copy it a set amount to the right (bigger than the map) so it won't matter where it is copying to
+	// (other than for efficiency which I don't care about right now)
+	CopyToOffset(400);
+	ChangeIndexRelative(400);
 	SubtractValue(32);
 	Not();
-	Right();
-	Plus();
-	Left();
 
 	Branch();
-
+		// No collision, let's do this
 		Left();
 		ChangeIndexToPreviousTempOne();
-		Plus(); // Un-reset temp one
 		Left();
-		// We're now at levelIndex
+		// We're now at levelIndex (maybe again?)
 
-		ChangeIndexRelative(playerPositionIndex - levelIndex);
-		SetZero();
-		ChangeIndexRelative(playerPositionIndexTemp - playerPositionIndex);
-		CopyToOffset(playerPositionIndex);		// Player should now be what it was before, enacting collision
-		ChangeIndexRelative(levelIndex - playerPositionIndexTemp);
+		ChangeIndexRelativeToValueAtOffset(playerPositionIndexTemp - levelIndex);
+		SubtractValue(32); // Did you know that @ - 32 = Space?
+
+		// We don't know where we are coming from so we can't know where the indexes are in relationship
+		// What we do here is keep a 1 from the breadcrumb trail to scan back to instead
+		Left();
+		ChangeIndexToPreviousTempOne();
+		Left();
+
 		ChangeIndexRelativeToValueAtOffset(playerPositionIndex - levelIndex);
-		// Problem now is that loop will always be true in case of collision
-		Right();
-		Minus();
+		AddValue(32); // Did you know that Space + 32 = @?  You should!
+
 	Loop();
-
-	AddValue(63);
-
-	Right();
-	Branch();
-		Minus();
-		Left();
-		AddValue(32);	// Get map back to proper value
-		Right();
-	Loop();
-	Left();
-
-	Left();
-	ChangeIndexToPreviousTempOne();
-	Left();
-	// We're now at levelIndex (maybe again?)
-
-	ChangeIndexRelativeToValueAtOffset(playerPositionIndexTemp - levelIndex);
-	SubtractValue(32); // Did you know that @ - 32 = Space?
-
-	// We don't know where we are coming from so we can't know where the indexes are in relationship
-	// What we do here is keep a 1 from the breadcrumb trail to scan back to instead
-	Left();
-	ChangeIndexToPreviousTempOne();
-	Left();
-
-	ChangeIndexRelativeToValueAtOffset(playerPositionIndex - levelIndex);
-	AddValue(32); // Did you know that Space + 32 = @?  You should!
 
 	// We don't know where we are coming from so we can't know where the indexes are in relationship
 	// What we do here is keep a 1 from the breadcrumb trail to scan back to instead
