@@ -548,6 +548,13 @@ void BrainfuckTool::PlayerLogic(int inputCharacterIndex, int wIndex, int aIndex,
 		Right(); // Force end of the loop
 	Loop();
 
+	// I need this to happen when the previous stuff doesn't happen
+	//ChangeIndexRelative(playerPositionIndex - levelIndex);
+	//SetZero();
+	//ChangeIndexRelative(playerPositionIndexTemp - playerPositionIndex);
+	//CopyToOffset(playerPositionIndex - playerPositionIndexTemp);
+	//ChangeIndexRelative(levelIndex - playerPositionIndex);
+
 	// We don't know where we are coming from so we can't know where the indexes are in relationship
 	// What we do here is keep a 1 from the breadcrumb trail to scan back to instead
 	ChangeIndexToPreviousTempOne();
