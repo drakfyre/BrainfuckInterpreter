@@ -519,14 +519,17 @@ void BrainfuckTool::PlayerLogic(int inputCharacterIndex, int wIndex, int aIndex,
 	// Except we can't just copy to a known position, as we don't know our position
 	// For now I'm gonna work around maybe by trying to copy it a set amount to the right (bigger than the map) so it won't matter where it is copying to
 	// (other than for efficiency which I don't care about right now)
-	CopyToOffset(400);
-	ChangeIndexRelative(400);
+	CopyToOffset(800);
+	ChangeIndexRelative(800);
 	SubtractValue(32);
 	Not();
+	MoveToOffset(1); // This is so I can force end the loop on the right track
+	Right();
 
-	Branch();
+	Branch(true);
+		Minus(); // Clear the 1
+
 		// No collision, let's do this
-		Left();
 		ChangeIndexToPreviousTempOne();
 		Left();
 		// We're now at levelIndex (maybe again?)
@@ -542,12 +545,11 @@ void BrainfuckTool::PlayerLogic(int inputCharacterIndex, int wIndex, int aIndex,
 
 		ChangeIndexRelativeToValueAtOffset(playerPositionIndex - levelIndex);
 		AddValue(32); // Did you know that Space + 32 = @?  You should!
-
+		Right(); // Force end of the loop
 	Loop();
 
 	// We don't know where we are coming from so we can't know where the indexes are in relationship
 	// What we do here is keep a 1 from the breadcrumb trail to scan back to instead
-	Left();
 	ChangeIndexToPreviousTempOne();
 	Left();
 
