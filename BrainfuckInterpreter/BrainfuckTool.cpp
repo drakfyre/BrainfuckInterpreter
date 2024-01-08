@@ -526,6 +526,18 @@ void BrainfuckTool::PlayerLogic(int inputCharacterIndex, int wIndex, int aIndex,
 	MoveToOffset(1); // This is so I can force end the loop on the right track
 	Right();
 
+
+	// New strategy idea:
+	// Right now things are modified to have the following logic happen conditionally
+	// So you'll have to go back to the old logic (will be faster I think than massaging it through)
+	// Instead, we should keep the logic below and run it all the time
+	// and instead do something like this if we ARE colliding:
+	//ChangeIndexRelative(playerPositionIndex - levelIndex);
+	//SetZero();
+	//ChangeIndexRelative(playerPositionIndexTemp - playerPositionIndex);
+	//CopyToOffset(playerPositionIndex - playerPositionIndexTemp);
+	//ChangeIndexRelative(levelIndex - playerPositionIndex);
+
 	Branch(true);
 		Minus(); // Clear the 1
 
@@ -547,13 +559,6 @@ void BrainfuckTool::PlayerLogic(int inputCharacterIndex, int wIndex, int aIndex,
 		AddValue(32); // Did you know that Space + 32 = @?  You should!
 		Right(); // Force end of the loop
 	Loop();
-
-	// I need this to happen when the previous stuff doesn't happen
-	//ChangeIndexRelative(playerPositionIndex - levelIndex);
-	//SetZero();
-	//ChangeIndexRelative(playerPositionIndexTemp - playerPositionIndex);
-	//CopyToOffset(playerPositionIndex - playerPositionIndexTemp);
-	//ChangeIndexRelative(levelIndex - playerPositionIndex);
 
 	// We don't know where we are coming from so we can't know where the indexes are in relationship
 	// What we do here is keep a 1 from the breadcrumb trail to scan back to instead
