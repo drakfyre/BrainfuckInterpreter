@@ -519,6 +519,8 @@ void BrainfuckTool::PlayerLogic(int inputCharacterIndex, int wIndex, int aIndex,
 	// So we don't know if we are "on track" or not
 	// Probably the best solution at this point would be some kind of marker to the right of the level data
 	// That we can scan to so we know where we are
+	// Maybe just set OneAfterGameMapIndex to one?
+	// And make a rightward scanning option (If I don't already have one)
 
 	CopyToOffset(801);
 	ChangeIndexRelative(801);
