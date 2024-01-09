@@ -514,54 +514,42 @@ void BrainfuckTool::PlayerLogic(int inputCharacterIndex, int wIndex, int aIndex,
 	ChangeIndexRelative(levelIndex - dIndexTemp);
 	ChangeIndexRelativeToValueAtOffset(playerPositionIndex - levelIndex);
 
-	// next, try copying the value somewhere first, and testing it there instead
-	// Then we don't have to restore anything?  Might solve our problem
-	// Except we can't just copy to a known position, as we don't know our position
-	// For now I'm gonna work around maybe by trying to copy it a set amount to the right (bigger than the map) so it won't matter where it is copying to
-	// (other than for efficiency which I don't care about right now)
-	CopyToOffset(800);
-	ChangeIndexRelative(800);
+
+	// Problem: We do not know if we are on an even or an odd memory address
+	// So we don't know if we are "on track" or not
+	// Probably the best solution at this point would be some kind of marker to the right of the level data
+	// That we can scan to so we know where we are
+
+	CopyToOffset(801);
+	ChangeIndexRelative(801);
 	SubtractValue(32);
-	Not();
-	MoveToOffset(1); // This is so I can force end the loop on the right track
-	Right();
 
-
-	// New strategy idea:
-	// Right now things are modified to have the following logic happen conditionally
-	// So you'll have to go back to the old logic (will be faster I think than massaging it through)
-	// Instead, we should keep the logic below and run it all the time
-	// and instead do something like this if we ARE colliding:
-	//ChangeIndexRelative(playerPositionIndex - levelIndex);
-	//SetZero();
-	//ChangeIndexRelative(playerPositionIndexTemp - playerPositionIndex);
-	//CopyToOffset(playerPositionIndex - playerPositionIndexTemp);
-	//ChangeIndexRelative(levelIndex - playerPositionIndex);
-
-	Branch(true);
-		Minus(); // Clear the 1
-
-		// No collision, let's do this
-		ChangeIndexToPreviousTempOne();
-		Left();
-		// We're now at levelIndex (maybe again?)
-
-		ChangeIndexRelativeToValueAtOffset(playerPositionIndexTemp - levelIndex);
-		SubtractValue(32); // Did you know that @ - 32 = Space?
-
-		// We don't know where we are coming from so we can't know where the indexes are in relationship
-		// What we do here is keep a 1 from the breadcrumb trail to scan back to instead
+	// This restores player position, invalidating the move if there's collision
+	Branch();
 		Left();
 		ChangeIndexToPreviousTempOne();
+		Plus();
 		Left();
 
-		ChangeIndexRelativeToValueAtOffset(playerPositionIndex - levelIndex);
-		AddValue(32); // Did you know that Space + 32 = @?  You should!
-		Right(); // Force end of the loop
+		ChangeIndexRelative(playerPositionIndex - levelIndex);
+		SetZero();
+		ChangeIndexRelative(playerPositionIndexTemp - playerPositionIndex);
+		CopyToOffset(playerPositionIndex - playerPositionIndexTemp);
+		ChangeIndexRelative(levelIndex - playerPositionIndex);
+		Right();
+		Right();
+		Right();
 	Loop();
+
+	ChangeIndexToPreviousTempOne();
+	Left();
+
+	ChangeIndexRelativeToValueAtOffset(playerPositionIndexTemp - levelIndex);
+	SubtractValue(32); // Did you know that @ - 32 = Space?
 
 	// We don't know where we are coming from so we can't know where the indexes are in relationship
 	// What we do here is keep a 1 from the breadcrumb trail to scan back to instead
+	Left();
 	ChangeIndexToPreviousTempOne();
 	Left();
 
