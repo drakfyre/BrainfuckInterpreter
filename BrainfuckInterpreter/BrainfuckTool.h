@@ -17,6 +17,7 @@ public:
 
 	/// Pure brainfuck
 	void SetZero();
+	void ChangeIndexToNextOne();
 	void ChangeIndexToNextTempZero();
 	void ChangeIndexToPreviousTempZero();
 	void ChangeIndexToPreviousTempOne();

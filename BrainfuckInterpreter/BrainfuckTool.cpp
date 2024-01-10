@@ -153,6 +153,18 @@ void BrainfuckTool::ChangeIndexToPreviousTempZero()
 	Loop();		// If current index is 0, ends
 }
 
+void BrainfuckTool::ChangeIndexToNextOne()
+{
+	Minus();
+	Branch();	// Ends if we're currently at a 1
+		Plus();	// Reverse what we did before our loop
+		Right();	// Increase current index
+		Minus();
+	Loop();		// If current index is 1, ends
+
+	// This clears our one; we rely on this later so not changing it for now
+}
+
 void BrainfuckTool::ChangeIndexToPreviousTempOne()
 {
 	Minus();
@@ -521,8 +533,9 @@ void BrainfuckTool::PlayerLogic(int inputCharacterIndex, int wIndex, int aIndex,
 	// That we can scan to so we know where we are
 	// Maybe just set OneAfterGameMapIndex to one?
 	// And make a rightward scanning option (If I don't already have one)
+	CopyToOffset(801);		// We want to copy over to where the one is, but we don't have the functions for that
+	ChangeIndexToNextOne(); // This scans right but we need to copy before we get here... somehow.
 
-	CopyToOffset(801);
 	ChangeIndexRelative(801);
 	SubtractValue(32);
 

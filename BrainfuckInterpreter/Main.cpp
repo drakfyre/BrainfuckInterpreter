@@ -47,7 +47,7 @@ int main()
     int hasKeyIndex = tool.NewVariable(0);
     int gameRunningIndex = tool.NewVariable(1);
     int gameMapIndex = tool.NewArray(levelArray, kLevelWidth * kLevelHeight, kLevelWidth);
-    int oneAfterGameMapIndex = tool.NewVariable(0);
+    int oneAfterGameMapIndex = tool.NewVariable(1);
 
     tool.ChangeIndexRelative(gameRunningIndex - oneAfterGameMapIndex - 2);
     tool.Branch(true); // False forces immediate resolve of this branch (Can only be done with branches that will not be skipped 1st time or we'll crash)
